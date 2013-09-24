@@ -1,8 +1,7 @@
 #include "House.hpp"
 #include "../Game.hpp"
 
-House::House(GameObject* parent, int x, int y, int width, int depth) :
-	GameObject(parent) {
+House::House(int x, int y, int width, int depth) {
 	house.mesh = MeshManager::get("house");
 	house.program = ShaderManager::get("sample");
 
@@ -15,7 +14,7 @@ House::~House() {
 }
 
 void House::draw() const {
-	house.program->uniform("sampler")->set(TextureManager::get("cubetex"));
+	house.program->uniform("sampler")->set(TextureManager::get("housetex"));
 	house.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
 	house.draw();
 }

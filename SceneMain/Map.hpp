@@ -27,10 +27,9 @@ class Map : public GameObject {
 				}
 		};
 
-		Map(GameObject* parent);
+		Map();
 		virtual ~Map();
 
-		virtual void update(float deltaTime);
 		virtual void draw() const;
 
 		int getWidth() const {return tiles.size();}

@@ -3,8 +3,7 @@
 #include "PerspectiveCamera.hpp"
 #include "Map.hpp"
 
-SceneMain::SceneMain() :
-	GameObject(NULL), debugCounter(0.0), fpsCount(0) {
+SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	this->setName("SCENE");
 	//SCENE INIT
 	if (!loadResources()) {
@@ -15,9 +14,9 @@ SceneMain::SceneMain() :
 	//Center mouse
 	InputManager::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
 
-	PerspectiveCamera* cam = new PerspectiveCamera(this, vec3f(-250,-500,-250));
+	PerspectiveCamera* cam = new PerspectiveCamera(vec3f(-150,-200,-100));
 	addObject(cam);
-	cam->addObject(new Map(cam));
+	cam->addObject(new Map());
 }
 
 SceneMain::~SceneMain() {
@@ -34,7 +33,7 @@ bool SceneMain::loadResources() {
 	if(!ShaderManager::load("sample2","data/shaders/sample2.vert","data/shaders/sample2.frag"))
 		return false;
 	//textures
-	if(!TextureManager::load("cubetex","data/textures/10x10tex.png",2))
+	if(!TextureManager::load("housetex","data/textures/10x10tex.png",2))
 		return false;
 	//Create meshes
 	MeshManager::add("house",new Mesh("data/models/10x10.obj"));

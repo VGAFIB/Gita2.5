@@ -27,8 +27,10 @@ const int streetTypes[][2] = {
 };
 
 vector<Street> generateStreets(int size) {
+	int margin = 20;
+	//generate
 	vector<Street> v;
-	for(int i = 10; i < size-10; i++) {
+	for(int i = margin; i < size-margin; i++) {
 		int t = Utils::randomInt(0, 3);
 		Street s;
 		s.pos = i;
@@ -37,28 +39,27 @@ vector<Street> generateStreets(int size) {
 		i += s.sidewalk*2+s.roadway;
 		if(i < size-1)
 			v.push_back(s);
-
 		i += Utils::randomInt(5, 10);
 	}
-
+	//fix offset
+	if(v.empty()) return v;
 	int start = v[0].start();
 	int end = v[v.size()-1].end()+1;
-	for(int i = 0; i < v.size(); ++i)
-		v[i].pos += size/2 - (end+start)/2;
+	for(unsigned int i = 0; i < v.size(); ++i)
+		v[i].pos += (size - end - start)/2;
+
 	return v;
 }
 
-struct Apple {
-		bool x, y;
-};
+typedef vec2b Apple;
 
-Map::Map(GameObject* parent) : GameObject(parent) {
+Map::Map() {
 	setName("map");
 	Utils::seedRandom(time(0));
 	setDrawPriority(-1);
 
-	int sizex = 500;
-	int sizey = 500;
+	int sizex = 300;
+	int sizey = 200;
 	tiles = vector<vector<Tile> > (sizex, vector<Tile>(sizey));
 
 	vector<Street> sx = generateStreets(sizey);
@@ -69,10 +70,10 @@ Map::Map(GameObject* parent) : GameObject(parent) {
 		for(int x = 0; x < sizex; x++)
 			tile(x, y).type = Map::Garden;
 
-	vector<vector<Apple> > aa (sy.size(), vector<Apple>(sx.size()));
+	vector<vector<Apple> > apples (sy.size(), vector<Apple>(sx.size()));
 	for(unsigned int x = 0; x < sy.size(); x++)
 		for(unsigned int y = 0; y < sx.size(); y++) {
-			Apple& a = aa[x][y];
+			Apple& a = apples[x][y];
 			if(x == 0)
 				a.x = false;
 			else
@@ -85,7 +86,7 @@ Map::Map(GameObject* parent) : GameObject(parent) {
 
 	for(unsigned int x = 0; x < sy.size(); x++)
 		for(unsigned int y = 0; y < sx.size(); y++) {
-			Apple& a = aa[x][y];
+			Apple& a = apples[x][y];
 			if(a.x) {
 				int x1 = sy[x-1].start();
 				int x2 = sy[x].end();
@@ -108,7 +109,7 @@ Map::Map(GameObject* parent) : GameObject(parent) {
 
 	for(unsigned int x = 0; x < sy.size(); x++)
 		for(unsigned int y = 0; y < sx.size(); y++) {
-			Apple& a = aa[x][y];
+			Apple& a = apples[x][y];
 			if(a.x) {
 				int x1 = sy[x-1].sstart();
 				int x2 = sy[x].send();
@@ -231,6 +232,9 @@ Map::Map(GameObject* parent) : GameObject(parent) {
 	model.program = ShaderManager::get("sample2");
 }
 
+Map::~Map() {
+}
+
 const static int houseSizes[][2] = {
 	{8, 8},
 	{4, 4},
@@ -301,14 +305,7 @@ void Map::placeHouse(int x, int y, int type) {
 		for(int yy = 0; yy < ty; yy++)
 			tile(x+xx, y+yy).type = Building;
 
-	addObject(new House(this, x, y, tx, ty));
-}
-
-Map::~Map() {
-}
-
-void Map::update(float deltaTime) {
-	(void) deltaTime;
+	addObject(new House(x, y, tx, ty));
 }
 
 void Map::draw() const {

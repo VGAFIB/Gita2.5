@@ -5,7 +5,7 @@
 
 class House : public GameObject {
 	public:
-		House(GameObject* parent, int x, int y, int width, int depth);
+		House(int x, int y, int width, int depth);
 		virtual ~House();
 
 		void draw() const;

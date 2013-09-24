@@ -68,6 +68,9 @@ void Game::update(float deltaTime) {
 	InputManager::update(isRunning,window);
 	VBE_ASSERT(root != NULL, "Null scenegraph root");
 	root->doUpdate(deltaTime);
+	int nulls = 0;
+	if(!GameObject::checkTree(Game::root, nulls))
+		VBE_LOG("WTF");
 }
 
 // Draw scenegraph

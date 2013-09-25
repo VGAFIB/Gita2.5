@@ -1,6 +1,15 @@
 #include "House.hpp"
 #include "../Game.hpp"
 
+const int House::houseTypes[][2] = {
+	{8, 8},
+	{4, 4},
+	{5, 3},
+	{2, 6},
+	{6, 2}
+};
+const int House::houseTypeCount = 5;
+
 House::House(int x, int y, int width, int depth) {
 	house.mesh = MeshManager::get("house");
 	house.program = ShaderManager::get("sample");

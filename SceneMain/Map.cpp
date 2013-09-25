@@ -65,7 +65,7 @@ Map::Map() {
 	vector<Street> sx = generateStreets(sizey);
 	vector<Street> sy = generateStreets(sizex);
 
-	//Generate the map
+	//Set everything to garden
 	for(int y = 0; y < sizey; y++)
 		for(int x = 0; x < sizex; x++)
 			tile(x, y).type = Map::Garden;
@@ -140,13 +140,23 @@ Map::Map() {
 		tile(getWidth()-1, y).type = Water;
 	}
 
-	placeHouses();
+	//Place Houses
+	for(int i = 0; i < House::houseTypeCount; i++) {
+		int fails = 0;
+		while((fails < 100))
+			fails = (placeHouse(i)? 0 : fails+1);
+	}
+	for(int y = 0; y < getHeight(); y++)
+		for(int x = 0; x < getWidth(); x++)
+			for(int i = 0; i < House::houseTypeCount; i++)
+				if(Utils::randomBool(30))
+					if(houseFitsAt(x, y, i))
+						placeHouse(x, y, i);
 
 	//Discard smaller connected components
 	vector<vector<int> > visited(getWidth(), vector<int>(getHeight(), -1));
 	int bestid = 0;
 	int bestcount = 0;
-
 	int dx[] = {0, 0, 1, -1};
 	int dy[] = {1, -1, 0, 0};
 
@@ -176,7 +186,6 @@ Map::Map() {
 					bestid = id;
 				}
 			}
-
 	for(int x = 0; x < getWidth(); x++)
 		for(int y = 0; y < getHeight(); y++)
 			if(visited[x][y] != bestid && !tile(x, y).isSolid())
@@ -199,7 +208,6 @@ Map::Map() {
 		for(int x = 0; x < sizex; x++) {
 			if(tiles[x][y].type == Map::Building)
 				continue;
-
 			vec3f color;
 			switch(tiles[x][y].type) {
 				case Map::Sidewalk:
@@ -235,77 +243,41 @@ Map::Map() {
 Map::~Map() {
 }
 
-const static int houseSizes[][2] = {
-	{8, 8},
-	{4, 4},
-	{5, 3},
-	{2, 6},
-	{6, 2}
-};
-const static int typeCount = 5;
-
-void Map::placeHouses() {
-	for(int i = 0; i < typeCount; i++)
-	{
-		int max = 10000/houseSizes[i][0];
-		int fails = 0;
-		int placed = 0;
-		while((fails < 100) && placed < max) { //Parar cuando hayan 10 fallos seguidos.
-			if(placeHouse(i)) {
-				fails = 0;
-				++placed;
-			}
-			else
-				fails++;
-		}
-	}
-	for(int y = 0; y < getHeight(); y++)
-		for(int x = 0; x < getWidth(); x++)
-			for(int i = 0; i < typeCount; i++)
-				if(Utils::randomBool(30))
-					if(houseFitsAt(x, y, i))
-						placeHouse(x, y, i);
-}
-
 bool Map::placeHouse(int type) {
-	int tx = houseSizes[type][0];
-	int ty = houseSizes[type][1];
+	int sizeX = House::houseTypes[type][0];
+	int sizeY = House::houseTypes[type][1];
 
-	int x = Utils::randomInt(0, getWidth()-tx);
-	int y = Utils::randomInt(0, getHeight()-ty);
+	int x = Utils::randomInt(0, getWidth()-sizeX);
+	int y = Utils::randomInt(0, getHeight()-sizeY);
 
-	bool fit = houseFitsAt(x, y, type);
-
-	if(fit)
+	if(houseFitsAt(x, y, type)) {
 		placeHouse(x, y, type);
-
-	return fit;
-}
-
-bool Map::houseFitsAt(int x, int y, int type) {
-	int tx = houseSizes[type][0];
-	int ty = houseSizes[type][1];
-
-	if(x+tx > getWidth()) return false;
-	if(y+ty > getHeight()) return false;
-
-	for(int xx = 0; xx < tx; xx++)
-		for(int yy = 0; yy < ty; yy++)
-			if(tile(x+xx, y+yy).type != Garden)
-				return false;
-
-	return true;
+		return true;
+	}
+	return false;
 }
 
 void Map::placeHouse(int x, int y, int type) {
-	int tx = houseSizes[type][0];
-	int ty = houseSizes[type][1];
+	int sizeX = House::houseTypes[type][0];
+	int sizeY = House::houseTypes[type][1];
+	for(int dx = 0; dx < sizeX; dx++)
+		for(int dy = 0; dy < sizeY; dy++)
+			tile(x+dx, y+dy).type = Building;
+	addObject(new House(x, y, sizeX, sizeY));
+}
 
-	for(int xx = 0; xx < tx; xx++)
-		for(int yy = 0; yy < ty; yy++)
-			tile(x+xx, y+yy).type = Building;
+bool Map::houseFitsAt(int x, int y, int type) {
+	int sizeX = House::houseTypes[type][0];
+	int sizeY = House::houseTypes[type][1];
 
-	addObject(new House(x, y, tx, ty));
+	if(x+sizeX > getWidth()) return false;
+	if(y+sizeY > getHeight()) return false;
+
+	for(int dx = 0; dx < sizeX; dx++)
+		for(int dy = 0; dy < sizeY; dy++)
+			if(tile(x+dx, y+dy).type != Garden)
+				return false;
+	return true;
 }
 
 void Map::draw() const {
@@ -325,19 +297,19 @@ Map::Tile& Map::tile(int x, int y) {
 
 vec2i Map::getRandomStreet() const {
 	bool repeat = true;
-	int x, y;
+	vec2i pos(0);
 	while(repeat) {
-		x = Utils::randomInt(0, getWidth()-1);
-		y = Utils::randomInt(0, getHeight()-1);
-		repeat = tile(x, y).isSolid();
+		pos.x = Utils::randomInt(0, getWidth()-1);
+		pos.y = Utils::randomInt(0, getHeight()-1);
+		repeat = tile(pos).isSolid();
 	}
-	return vec2i(x, y);
+	return pos;
 }
 
 bool Map::lineOfSight(vec2f from, vec2f to) const {
 	//Dice si una persona en FROM ve a una persona en TO
-	bool fromGrass = tile(from).isGrass(); //getTileAt(from) == 11;
-	bool toGrass = tile(to).isGrass(); //getTileAt(to) == 11;
+	bool fromGrass = tile(from).isGrass();
+	bool toGrass = tile(to).isGrass();
 
 	//Desde fuera no se puede ver dentro..
 	if(!fromGrass && toGrass) return false;
@@ -345,13 +317,12 @@ bool Map::lineOfSight(vec2f from, vec2f to) const {
 	if(fromGrass && toGrass && d > 0.8) return false;
 	if(d > 12) return false;
 
-	for(float i = 0; i <= 1; i+=0.05)
-	{
-		vec2f pt = from*i + to*(1.0f-i);
+	for(float i = 0; i <= 1; i+=0.05) {
+		vec2f midway = from*i + to*(1.0f-i);
 		//Si los dos dentro, ha de ser todo grass.
-		if(fromGrass && !tile(pt).isGrass())
+		if(fromGrass && !tile(midway).isGrass())
 			return false;
-		if(tile(pt).isSolid())
+		if(tile(midway).isSolid())
 			return false;
 	}
 	return true;

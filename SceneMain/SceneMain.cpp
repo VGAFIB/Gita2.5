@@ -14,7 +14,7 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	//Center mouse
 	InputManager::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
 
-	PerspectiveCamera* cam = new PerspectiveCamera(vec3f(-150,-200,-100));
+	PerspectiveCamera* cam = new PerspectiveCamera(vec3f(-150,-50,-200));
 	addObject(cam);
 	cam->addObject(new Map());
 }

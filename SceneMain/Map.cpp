@@ -17,9 +17,11 @@ struct Street {
 		int sstart() { return pos+sidewalk; }
 		int send() { return pos+sidewalk+roadway; }
 		bool peatonal() { return roadway == 0; }
+
+		static const int types[][2];
 };
 
-const int streetTypes[][2] = {
+const int Street::types[][2] = {
 	{2, 0},
 	{1, 2},
 	{1, 3},
@@ -27,15 +29,15 @@ const int streetTypes[][2] = {
 };
 
 vector<Street> generateStreets(int size) {
-	int margin = 20;
+	int margin = 10;
 	//generate
 	vector<Street> v;
 	for(int i = margin; i < size-margin; i++) {
 		int t = Utils::randomInt(0, 3);
 		Street s;
 		s.pos = i;
-		s.sidewalk = streetTypes[t][0];
-		s.roadway = streetTypes[t][1];
+		s.sidewalk = Street::types[t][0];
+		s.roadway = Street::types[t][1];
 		i += s.sidewalk*2+s.roadway;
 		if(i < size-1)
 			v.push_back(s);
@@ -62,20 +64,20 @@ Map::Map() {
 	int sizey = 200;
 	tiles = vector<vector<Tile> > (sizex, vector<Tile>(sizey));
 
-	vector<Street> sx = generateStreets(sizey);
-	vector<Street> sy = generateStreets(sizex);
-
 	//Set everything to garden
 	for(int y = 0; y < sizey; y++)
 		for(int x = 0; x < sizex; x++)
 			tile(x, y).type = Map::Garden;
 
-	vector<vector<Apple> > apples (sy.size(), vector<Apple>(sx.size()));
-	for(unsigned int x = 0; x < sy.size(); x++)
-		for(unsigned int y = 0; y < sx.size(); y++) {
+	vector<Street> horitzStreets = generateStreets(sizey);
+	vector<Street> verticStreets = generateStreets(sizex);
+	vector<vector<Apple> > apples (verticStreets.size(), vector<Apple>(horitzStreets.size()));
+
+	for(unsigned int x = 0; x < verticStreets.size(); x++)
+		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
 			if(x == 0)
-				a.x = false;
+				a.x = false; //cannot connect to the left on the leftmost intersection
 			else
 				a.x = Utils::randomBool(80);
 			if(y == 0)
@@ -84,49 +86,49 @@ Map::Map() {
 				a.y = Utils::randomBool(80);
 		}
 
-	for(unsigned int x = 0; x < sy.size(); x++)
-		for(unsigned int y = 0; y < sx.size(); y++) {
+	for(unsigned int x = 0; x < verticStreets.size(); x++)
+		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
 			if(a.x) {
-				int x1 = sy[x-1].start();
-				int x2 = sy[x].end();
-				int y1 = sx[y].start();
-				int y2 = sx[y].end();
-				for(int xx = x1; xx < x2; xx++)
-					for(int yy = y1; yy < y2; yy++)
-						tile(xx, yy).type = Map::Sidewalk;
+				int x1 = verticStreets[x-1].start();
+				int x2 = verticStreets[x].end();
+				int y1 = horitzStreets[y].start();
+				int y2 = horitzStreets[y].end();
+				for(int dx = x1; dx < x2; dx++)
+					for(int dy = y1; dy < y2; dy++)
+						tile(dx, dy).type = Map::Sidewalk;
 			}
 			if(a.y) {
-				int y1 = sx[y-1].start();
-				int y2 = sx[y].end();
-				int x1 = sy[x].start();
-				int x2 = sy[x].end();
-				for(int xx = x1; xx < x2; xx++)
-					for(int yy = y1; yy < y2; yy++)
-						tile(xx, yy).type = Map::Sidewalk;
+				int x1 = verticStreets[x].start();
+				int x2 = verticStreets[x].end();
+				int y1 = horitzStreets[y-1].start();
+				int y2 = horitzStreets[y].end();
+				for(int dx = x1; dx < x2; dx++)
+					for(int dy = y1; dy < y2; dy++)
+						tile(dx, dy).type = Map::Sidewalk;
 			}
 		}
 
-	for(unsigned int x = 0; x < sy.size(); x++)
-		for(unsigned int y = 0; y < sx.size(); y++) {
+	for(unsigned int x = 0; x < verticStreets.size(); x++)
+		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
 			if(a.x) {
-				int x1 = sy[x-1].sstart();
-				int x2 = sy[x].send();
-				int y1 = sx[y].sstart();
-				int y2 = sx[y].send();
-				for(int xx = x1; xx < x2; xx++)
-					for(int yy = y1; yy < y2; yy++)
-						tile(xx, yy).type = Map::Roadway;
+				int x1 = verticStreets[x-1].sstart();
+				int x2 = verticStreets[x].send();
+				int y1 = horitzStreets[y].sstart();
+				int y2 = horitzStreets[y].send();
+				for(int dx = x1; dx < x2; dx++)
+					for(int dy = y1; dy < y2; dy++)
+						tile(dx, dy).type = Map::Roadway;
 			}
 			if(a.y) {
-				int y1 = sx[y-1].sstart();
-				int y2 = sx[y].send();
-				int x1 = sy[x].sstart();
-				int x2 = sy[x].send();
-				for(int xx = x1; xx < x2; xx++)
-					for(int yy = y1; yy < y2; yy++)
-						tile(xx, yy).type = Map::Roadway;
+				int x1 = verticStreets[x].sstart();
+				int x2 = verticStreets[x].send();
+				int y1 = horitzStreets[y-1].sstart();
+				int y2 = horitzStreets[y].send();
+				for(int dx = x1; dx < x2; dx++)
+					for(int dy = y1; dy < y2; dy++)
+						tile(dx, dy).type = Map::Roadway;
 			}
 		}
 

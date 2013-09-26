@@ -1,7 +1,10 @@
 #include "PerspectiveCamera.hpp"
 
-PerspectiveCamera::PerspectiveCamera(vec3f pos) : pos(pos) {
-	transform = glm::perspective(FOV,float(SCRWIDTH)/float(SCRHEIGHT),ZNEAR,ZFAR);
-	transform = glm::rotate(transform,90.0f,vec3f(1,0,0));
-	transform = glm::translate(transform,pos);
+PerspectiveCamera::PerspectiveCamera(const vec3f& pos, const mat4f& view, const mat4f& projection)
+	: pos(pos), view(view), projection(projection) {
+}
+
+void PerspectiveCamera::update(float deltaTime) {
+	(void) deltaTime;
+	transform = projection*view;
 }

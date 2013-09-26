@@ -265,7 +265,7 @@ void Map::placeHouse(int x, int y, int type) {
 	for(int dx = 0; dx < sizeX; dx++)
 		for(int dy = 0; dy < sizeY; dy++)
 			tile(x+dx, y+dy).type = Building;
-	addObject(new House(x, y, sizeX, sizeY));
+	addObject(new House(x, y, type));
 }
 
 bool Map::houseFitsAt(int x, int y, int type) {

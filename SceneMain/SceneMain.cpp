@@ -15,10 +15,8 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	//Center mouse
 	InputManager::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
 	PerspectiveCamera* cam = new PerspectiveCamera();
-	cam->pos = vec3f(-150,-20,-100);
-	cam->projection = glm::perspective(FOV,float(SCRWIDTH)/float(SCRHEIGHT),ZNEAR,ZFAR);
-	cam->view = glm::rotate(mat4f(1.0),45.0f,vec3f(1,0,0));
-	cam->view = glm::translate(cam->view,cam->pos);
+	cam->pos = vec3f(150,20,100);
+	cam->rot.x = 45.0f;
 	addObject(cam);
 	cam->addObject(new Map());
 }

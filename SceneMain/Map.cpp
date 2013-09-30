@@ -73,19 +73,21 @@ Map::Map() {
 	vector<Street> verticStreets = generateStreets(sizex);
 	vector<vector<Apple> > apples (verticStreets.size(), vector<Apple>(horitzStreets.size()));
 
+	//randomly connect apples
 	for(unsigned int x = 0; x < verticStreets.size(); x++)
 		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
 			if(x == 0)
 				a.x = false; //cannot connect to the left on the leftmost intersection
 			else
-				a.x = Utils::randomBool(80);
+				a.x = Utils::randomBool(0);
 			if(y == 0)
-				a.y = false;
+				a.y = false; //cannot connect up on the upmost intersection
 			else
-				a.y = Utils::randomBool(80);
+				a.y = Utils::randomBool(0);
 		}
 
+	//draw sidewalk on all the street
 	for(unsigned int x = 0; x < verticStreets.size(); x++)
 		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
@@ -109,6 +111,7 @@ Map::Map() {
 			}
 		}
 
+	//draw roadway on top of the center sidewalk
 	for(unsigned int x = 0; x < verticStreets.size(); x++)
 		for(unsigned int y = 0; y < horitzStreets.size(); y++) {
 			Apple& a = apples[x][y];
@@ -142,7 +145,7 @@ Map::Map() {
 		tile(getWidth()-1, y).type = Water;
 	}
 
-	//Place Houses
+	//Place Houses (first at random and then in order)
 	for(int i = 0; i < House::houseTypeCount; i++) {
 		int fails = 0;
 		while((fails < 100))
@@ -155,7 +158,7 @@ Map::Map() {
 					if(houseFitsAt(x, y, i))
 						placeHouse(x, y, i);
 
-	//Discard smaller connected components
+	//Discard smaller connected components (biggest BFS wins)
 	vector<vector<int> > visited(getWidth(), vector<int>(getHeight(), -1));
 	int bestid = 0;
 	int bestcount = 0;
@@ -188,6 +191,8 @@ Map::Map() {
 					bestid = id;
 				}
 			}
+
+	//set tiles disconnected from main component to building
 	for(int x = 0; x < getWidth(); x++)
 		for(int y = 0; y < getHeight(); y++)
 			if(visited[x][y] != bestid && !tile(x, y).isSolid())

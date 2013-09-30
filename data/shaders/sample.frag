@@ -2,8 +2,6 @@
 
 uniform sampler2D sampler;
 
-in vec4 vPos;
-in vec3 vPos2;
 in vec3 vNormal;
 in vec2 vTexCoord;
 

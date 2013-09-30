@@ -1,5 +1,4 @@
 #include "SceneMain.hpp"
-#include "../Game.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Map.hpp"
 #include "House.hpp"

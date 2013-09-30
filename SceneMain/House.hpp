@@ -1,7 +1,6 @@
 #ifndef HOUSE_HPP
 #define HOUSE_HPP
-#include "GameObject.hpp"
-#include "../graphics/Model.hpp"
+#include "Commons.hpp"
 
 class House : public GameObject {
 	public:

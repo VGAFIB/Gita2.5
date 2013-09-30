@@ -1,5 +1,4 @@
 #include "House.hpp"
-#include "../Game.hpp"
 
 const int House::houseTypes[][2] = {
 	{8, 8},
@@ -20,14 +19,14 @@ House::House(int x, int y, int type) {
 			break;
 		case 1: {
 			int random = Utils::randomInt(0,12);
-			house.mesh = MeshManager::get("4x4_"+toString(random));
-			texName =  "4x4_"+toString(random-random%3);
+			house.mesh = MeshManager::get("4x4_"+Utils::toString(random));
+			texName =  "4x4_"+Utils::toString(random-random%3);
 			break;
 		}
 		default: {
 			int random = Utils::randomInt(0,12);
-			house.mesh = MeshManager::get("4x4_"+toString(random));
-			texName =  "4x4_"+toString(random-random%3);
+			house.mesh = MeshManager::get("4x4_"+Utils::toString(random));
+			texName =  "4x4_"+Utils::toString(random-random%3);
 			transform = glm::scale(transform,vec3f(float(houseTypes[type][0])/4.0f,1.0f,float(houseTypes[type][1])/4.0f));
 			break;
 		}

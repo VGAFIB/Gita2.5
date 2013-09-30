@@ -1,7 +1,6 @@
 #ifndef PERSPECTIVECAMERA_HPP
 #define PERSPECTIVECAMERA_HPP
-
-#include "GameObject.hpp"
+#include "Commons.hpp"
 
 class PerspectiveCamera : public GameObject {
 	public:

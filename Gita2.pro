@@ -1,34 +1,25 @@
-CONFIG(debug,debug|release) {
-  DEFINES += "__DEBUG"
-}
-DEFINES += "__LOG"
-#DEFINES += "__DLOG"
 
-#__DEBUG will make asserts on all risky operations, and will output a detailed error message if it fails
-#__LOG will output all VBE_LOG(..). This is general (important) info such as resource loading, etc
-#__DLOG will output all VBE_DLOG(..). This is detailed log info, use it for debugging.
-# Disable all three for faster internets
+include(VBE/VBE.pro)
 
-TEMPLATE = app
-CONFIG -= qt
-LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lGL
-INCLUDEPATH += $$PWD/
-QMAKE_CXXFLAGS += -std=c++11
+INCLUDEPATH += .
+
 SOURCES += \
-	$$PWD/main.cpp \
-	$$PWD/SceneMain/SceneMain.cpp \
-	$$PWD/SceneMain/PerspectiveCamera.cpp \
-	$$PWD/SceneMain/Map.cpp \
-	$$PWD/SceneMain/House.cpp
+	main.cpp \
+	SceneMain/SceneMain.cpp \
+	SceneMain/PerspectiveCamera.cpp \
+	SceneMain/Map.cpp \
+	SceneMain/House.cpp \
+    Commons.cpp
 
 HEADERS += \
-	$$PWD/SceneMain/SceneMain.hpp \
-	$$PWD/SceneMain/PerspectiveCamera.hpp \
-	$$PWD/SceneMain/Map.hpp \
-	$$PWD/SceneMain/House.hpp
+	SceneMain/SceneMain.hpp \
+	SceneMain/PerspectiveCamera.hpp \
+	SceneMain/Map.hpp \
+	SceneMain/House.hpp \
+    Commons.hpp
 
 OTHER_FILES += \
-	$$PWD/data/shaders/sample.vert \
-	$$PWD/data/shaders/sample.frag \
-	$$PWD/data/shaders/sample2.vert \
-	$$PWD/data/shaders/sample2.frag
+	data/shaders/sample.vert \
+	data/shaders/sample.frag \
+	data/shaders/sample2.vert \
+	data/shaders/sample2.frag

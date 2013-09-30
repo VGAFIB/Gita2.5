@@ -1,5 +1,4 @@
 #include "PerspectiveCamera.hpp"
-#include "../Game.hpp"
 
 PerspectiveCamera::PerspectiveCamera(const vec3f& pos, const vec3f& rot, const mat4f& projection)
 	: pos(pos), rot(rot), projection(projection) {

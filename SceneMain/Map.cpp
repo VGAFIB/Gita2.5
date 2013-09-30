@@ -1,9 +1,6 @@
 #include "Map.hpp"
 #include "SceneMain.hpp"
-#include "Game.hpp"
-#include <cmath>
 #include "House.hpp"
-#include <queue>
 
 using namespace std;
 
@@ -80,11 +77,11 @@ Map::Map() {
 			if(x == 0)
 				a.x = false; //cannot connect to the left on the leftmost intersection
 			else
-				a.x = Utils::randomBool(0);
+				a.x = Utils::randomBool(80);
 			if(y == 0)
 				a.y = false; //cannot connect up on the upmost intersection
 			else
-				a.y = Utils::randomBool(0);
+				a.y = Utils::randomBool(80);
 		}
 
 	//draw sidewalk on all the street

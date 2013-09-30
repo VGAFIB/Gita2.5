@@ -1,8 +1,7 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include "../GameObject.hpp"
-#include "../graphics/Model.hpp"
+#include "Commons.hpp"
 
 class Map : public GameObject {
 	public:

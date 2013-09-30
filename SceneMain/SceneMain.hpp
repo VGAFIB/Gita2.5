@@ -1,6 +1,6 @@
 #ifndef SCENEMAIN_HPP
 #define SCENEMAIN_HPP
-#include "../GameObject.hpp"
+#include "Commons.hpp"
 
 class Game;
 class SceneMain : public GameObject {

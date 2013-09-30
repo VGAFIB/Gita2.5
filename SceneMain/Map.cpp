@@ -143,11 +143,9 @@ Map::Map() {
 	}
 
 	//Place Houses (first at random and then in order)
-	for(int i = 0; i < House::houseTypeCount; i++) {
-		int fails = 0;
-		while((fails < 100))
-			fails = (placeHouse(i)? 0 : fails+1);
-	}
+	int fails = 0;
+	while((fails < 1000))
+		fails = (placeHouse(Utils::randomInt(0, House::houseTypeCount-1))? 0 : fails+1);
 	for(int y = 0; y < getHeight(); y++)
 		for(int x = 0; x < getWidth(); x++)
 			for(int i = 0; i < House::houseTypeCount; i++)
@@ -248,8 +246,8 @@ Map::~Map() {
 }
 
 bool Map::placeHouse(int type) {
-	int sizeX = House::houseTypes[type][0];
-	int sizeY = House::houseTypes[type][1];
+	int sizeX = House::houseTypes[type].width;
+	int sizeY = House::houseTypes[type].depth;
 
 	int x = Utils::randomInt(0, getWidth()-sizeX);
 	int y = Utils::randomInt(0, getHeight()-sizeY);
@@ -262,8 +260,8 @@ bool Map::placeHouse(int type) {
 }
 
 void Map::placeHouse(int x, int y, int type) {
-	int sizeX = House::houseTypes[type][0];
-	int sizeY = House::houseTypes[type][1];
+	int sizeX = House::houseTypes[type].width;
+	int sizeY = House::houseTypes[type].depth;
 	for(int dx = 0; dx < sizeX; dx++)
 		for(int dy = 0; dy < sizeY; dy++)
 			tile(x+dx, y+dy).type = Building;
@@ -271,8 +269,8 @@ void Map::placeHouse(int x, int y, int type) {
 }
 
 bool Map::houseFitsAt(int x, int y, int type) {
-	int sizeX = House::houseTypes[type][0];
-	int sizeY = House::houseTypes[type][1];
+	int sizeX = House::houseTypes[type].width;
+	int sizeY = House::houseTypes[type].depth;
 
 	if(x+sizeX > getWidth()) return false;
 	if(y+sizeY > getHeight()) return false;

@@ -4,8 +4,16 @@
 
 class House : public GameObject {
 	public:
-		static const int houseTypes[][2];
+		struct HouseData {
+				HouseData(unsigned int w, unsigned int d, std::string m, std::string t)
+					: width(w), depth(d), model(m), texture(t) {}
+				unsigned int width;
+				unsigned int depth;
+				std::string model;
+				std::string texture;
+		};
 		static const int houseTypeCount;
+		static const HouseData houseTypes[18];
 
 		House(int x, int y, int type);
 		virtual ~House();

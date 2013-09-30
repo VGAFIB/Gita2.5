@@ -34,18 +34,30 @@ bool SceneMain::loadResources() {
 	if(!ShaderManager::load("sample2","data/shaders/sample2.vert","data/shaders/sample2.frag"))
 		return false;
 	//textures
-	if(!TextureManager::load("4x4_0","data/textures/4x4_0.png",2))
+	if(!TextureManager::load("4x4_0","data/textures/4x4_0.png",2,true))
 		return false;
-	if(!TextureManager::load("4x4_3","data/textures/4x4_3.png",2))
+	TextureManager::get("4x4_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("4x4_3","data/textures/4x4_3.png",3,true))
 		return false;
-	if(!TextureManager::load("4x4_6","data/textures/4x4_6.png",2))
+	TextureManager::get("4x4_3")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("4x4_6","data/textures/4x4_6.png",4,true))
 		return false;
-	if(!TextureManager::load("4x4_9","data/textures/4x4_9.png",2))
+	TextureManager::get("4x4_6")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("4x4_9","data/textures/4x4_9.png",5,true))
 		return false;
-	if(!TextureManager::load("4x4_12","data/textures/4x4_12.png",2))
+	TextureManager::get("4x4_9")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("4x4_12","data/textures/4x4_12.png",6,true))
 		return false;
-	if(!TextureManager::load("8x8_0","data/textures/8x8_0.png",2))
+	TextureManager::get("4x4_12")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("8x8_0","data/textures/8x8_0.png",7,true))
 		return false;
+	TextureManager::get("8x8_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("6x2_0","data/textures/6x2_0.png",8,true))
+		return false;
+	TextureManager::get("6x2_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	if(!TextureManager::load("6x2_1","data/textures/6x2_1.png",9,true))
+		return false;
+	TextureManager::get("6x2_1")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
 	//Create meshes
 	MeshManager::add("4x4_0",new Mesh("data/models/4x4_0.obj"));
 	MeshManager::add("4x4_1",new Mesh("data/models/4x4_1.obj"));
@@ -61,6 +73,10 @@ bool SceneMain::loadResources() {
 	MeshManager::add("4x4_11",new Mesh("data/models/4x4_11.obj"));
 	MeshManager::add("4x4_12",new Mesh("data/models/4x4_12.obj"));
 	MeshManager::add("8x8_0",new Mesh("data/models/8x8_0.obj"));
+	MeshManager::add("6x2_0",new Mesh("data/models/6x2_0.obj"));
+	MeshManager::add("6x2_1",new Mesh("data/models/6x2_1.obj"));
+	MeshManager::add("6x2_2",new Mesh("data/models/6x2_2.obj"));
+	MeshManager::add("6x2_3",new Mesh("data/models/6x2_3.obj"));
 	return true;
 }
 

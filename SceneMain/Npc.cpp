@@ -74,7 +74,7 @@ void Npc::setGoal(vec2f goal) {
 
     vec2i ant(-1, -1);
 	vec2f antf(0.5, 0.5);
-    for(int i = 0; i < v.size(); i++)
+	for(unsigned int i = 0; i < v.size(); i++)
     {
 
         vec2f p (v[i].x + 0.5, v[i].y + 0.5);

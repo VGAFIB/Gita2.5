@@ -125,7 +125,7 @@ bool Animation::Load(std::string filename) {
 			std::cerr << "Error "<<lineNum<<": Animation name undefined yet." << std::endl;
 		}
 		else {
-			ReadFRAME(currentAnimTrack, line, lineNum);
+			ReadFRAME(currentAnimTrack, line);
 		}
 	}
 
@@ -231,7 +231,7 @@ bool Animation::ReadANIM(std::string &currentAnimName, AnimationTrack *&currentA
 	return true;
 }
 
-bool Animation::ReadFRAME(AnimationTrack *&currentAnimTrack, std::string &line, int lineNum)  {
+bool Animation::ReadFRAME(AnimationTrack *&currentAnimTrack, std::string &line)  {
 	//TODO CHECK ERRORS
 	std::stringstream sline(line);
 

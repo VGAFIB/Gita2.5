@@ -30,9 +30,8 @@ class Animation {
 				AnimationTrack*& currentAnimTrack,
 				std::string& line, int lineNum);
 
-		bool ReadFRAME (
-				AnimationTrack*& currentAnimTrack,
-				std::string& line, int lineNum);
+		bool ReadFRAME (AnimationTrack*& currentAnimTrack,
+				std::string& line);
 };
 
 class AnimationPlayer

@@ -238,8 +238,8 @@ Map::Map() {
 
 	mesh->setVertexData(&data[0],data.size());
 	model.mesh = mesh;
-	MeshManager::add("map",mesh);
-	model.program = ShaderManager::get("sample2");
+	MESHES.add("map",mesh);
+	model.program = PROGRAMS.get("sample2");
 }
 
 Map::~Map() {

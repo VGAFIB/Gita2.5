@@ -26,16 +26,16 @@ const House::HouseData House::houseTypes[18] = {
 House::House(int x, int y, int type) {
 	VBE_ASSERT(type < houseTypeCount && type >= 0, type << " is not a valid house type");
 	transform = glm::translate(mat4f(1.0),vec3f(x, 0, y));
-	house.mesh = MeshManager::get(houseTypes[type].model);
+	house.mesh = MESHES.get(houseTypes[type].model);
 	texName = houseTypes[type].texture;
-	house.program = ShaderManager::get("sample");
+	house.program = PROGRAMS.get("sample");
 }
 
 House::~House() {
 }
 
 void House::draw() const {
-	house.program->uniform("sampler")->set(TextureManager::get(texName));
+	house.program->uniform("sampler")->set(TEXTURES.get(texName));
 	house.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
 	house.draw();
 }

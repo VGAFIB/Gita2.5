@@ -12,7 +12,7 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 		return;
 	}
 	//Center mouse
-	InputManager::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
+	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
 	PerspectiveCamera* cam = new PerspectiveCamera();
 	cam->pos = vec3f(150,20,100);
 	cam->rot.x = 45.0f;
@@ -21,62 +21,65 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 }
 
 SceneMain::~SceneMain() {
-	TextureManager::clear();
-	MeshManager::clear();
-	ShaderManager::clear();
+	TEXTURES.clear();
+	MESHES.clear();
+	PROGRAMS.clear();
 	AudioManager::clear();
 }
 
 bool SceneMain::loadResources() {
 	//shaders
-	if(!ShaderManager::load("sample","data/shaders/sample.vert","data/shaders/sample.frag"))
-		return false;
-	if(!ShaderManager::load("sample2","data/shaders/sample2.vert","data/shaders/sample2.frag"))
-		return false;
+	ShaderProgram* p = new ShaderProgram();
+	if(!p->makeProgram("data/shaders/sample.vert","data/shaders/sample.frag")) return false;
+	PROGRAMS.add("sample",p);
+	p = new ShaderProgram();
+	if(!p->makeProgram("data/shaders/sample2.vert","data/shaders/sample2.frag")) return false;
+	PROGRAMS.add("sample2",p);
 	//textures
-	if(!TextureManager::load("4x4_0","data/textures/4x4_0.png",2,true))
-		return false;
-	TextureManager::get("4x4_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("4x4_3","data/textures/4x4_3.png",3,true))
-		return false;
-	TextureManager::get("4x4_3")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("4x4_6","data/textures/4x4_6.png",4,true))
-		return false;
-	TextureManager::get("4x4_6")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("4x4_9","data/textures/4x4_9.png",5,true))
-		return false;
-	TextureManager::get("4x4_9")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("4x4_12","data/textures/4x4_12.png",6,true))
-		return false;
-	TextureManager::get("4x4_12")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("8x8_0","data/textures/8x8_0.png",7,true))
-		return false;
-	TextureManager::get("8x8_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("6x2_0","data/textures/6x2_0.png",8,true))
-		return false;
-	TextureManager::get("6x2_0")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
-	if(!TextureManager::load("6x2_1","data/textures/6x2_1.png",9,true))
-		return false;
-	TextureManager::get("6x2_1")->setFilter(GL_LINEAR_MIPMAP_LINEAR,GL_LINEAR);
+	Texture* tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_0.png",true)) return false;
+	TEXTURES.add("4x4_0",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_3.png",true)) return false;
+	TEXTURES.add("4x4_3",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_6.png",true)) return false;
+	TEXTURES.add("4x4_6",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_9.png",true)) return false;
+	TEXTURES.add("4x4_9",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_12.png",true)) return false;
+	TEXTURES.add("4x4_12",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/8x8_0.png",true)) return false;
+	TEXTURES.add("8x8_0",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/6x2_0.png",true)) return false;
+	TEXTURES.add("6x2_0",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/6x2_1.png",true)) return false;
+	TEXTURES.add("6x2_1",tex);
+
 	//Create meshes
-	MeshManager::add("4x4_0",new Mesh("data/models/4x4_0.obj"));
-	MeshManager::add("4x4_1",new Mesh("data/models/4x4_1.obj"));
-	MeshManager::add("4x4_2",new Mesh("data/models/4x4_2.obj"));
-	MeshManager::add("4x4_3",new Mesh("data/models/4x4_3.obj"));
-	MeshManager::add("4x4_4",new Mesh("data/models/4x4_4.obj"));
-	MeshManager::add("4x4_5",new Mesh("data/models/4x4_5.obj"));
-	MeshManager::add("4x4_6",new Mesh("data/models/4x4_6.obj"));
-	MeshManager::add("4x4_7",new Mesh("data/models/4x4_7.obj"));
-	MeshManager::add("4x4_8",new Mesh("data/models/4x4_8.obj"));
-	MeshManager::add("4x4_9",new Mesh("data/models/4x4_9.obj"));
-	MeshManager::add("4x4_10",new Mesh("data/models/4x4_10.obj"));
-	MeshManager::add("4x4_11",new Mesh("data/models/4x4_11.obj"));
-	MeshManager::add("4x4_12",new Mesh("data/models/4x4_12.obj"));
-	MeshManager::add("8x8_0",new Mesh("data/models/8x8_0.obj"));
-	MeshManager::add("6x2_0",new Mesh("data/models/6x2_0.obj"));
-	MeshManager::add("6x2_1",new Mesh("data/models/6x2_1.obj"));
-	MeshManager::add("6x2_2",new Mesh("data/models/6x2_2.obj"));
-	MeshManager::add("6x2_3",new Mesh("data/models/6x2_3.obj"));
+	MESHES.add("4x4_0",new Mesh("data/models/4x4_0.obj"));
+	MESHES.add("4x4_1",new Mesh("data/models/4x4_1.obj"));
+	MESHES.add("4x4_2",new Mesh("data/models/4x4_2.obj"));
+	MESHES.add("4x4_3",new Mesh("data/models/4x4_3.obj"));
+	MESHES.add("4x4_4",new Mesh("data/models/4x4_4.obj"));
+	MESHES.add("4x4_5",new Mesh("data/models/4x4_5.obj"));
+	MESHES.add("4x4_6",new Mesh("data/models/4x4_6.obj"));
+	MESHES.add("4x4_7",new Mesh("data/models/4x4_7.obj"));
+	MESHES.add("4x4_8",new Mesh("data/models/4x4_8.obj"));
+	MESHES.add("4x4_9",new Mesh("data/models/4x4_9.obj"));
+	MESHES.add("4x4_10",new Mesh("data/models/4x4_10.obj"));
+	MESHES.add("4x4_11",new Mesh("data/models/4x4_11.obj"));
+	MESHES.add("4x4_12",new Mesh("data/models/4x4_12.obj"));
+	MESHES.add("8x8_0",new Mesh("data/models/8x8_0.obj"));
+	MESHES.add("6x2_0",new Mesh("data/models/6x2_0.obj"));
+	MESHES.add("6x2_1",new Mesh("data/models/6x2_1.obj"));
+	MESHES.add("6x2_2",new Mesh("data/models/6x2_2.obj"));
+	MESHES.add("6x2_3",new Mesh("data/models/6x2_3.obj"));
 	return true;
 }
 

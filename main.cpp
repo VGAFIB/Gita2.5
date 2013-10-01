@@ -1,6 +1,5 @@
 #include "SceneMain/SceneMain.hpp"
 
-
 int main() {
 	ZNEAR = 0.01f;
 	ZFAR = 1000.0f;

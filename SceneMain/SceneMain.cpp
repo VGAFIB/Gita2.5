@@ -2,6 +2,7 @@
 #include "PerspectiveCamera.hpp"
 #include "Map.hpp"
 #include "House.hpp"
+#include "Person.hpp"
 
 SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	this->setName("SCENE");
@@ -18,6 +19,9 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	cam->rot.x = 45.0f;
 	addObject(cam);
 	cam->addObject(new Map());
+	for(int i = 0; i < 1000; ++i) {
+		cam->addObject(new Person());
+	}
 }
 
 SceneMain::~SceneMain() {
@@ -35,6 +39,9 @@ bool SceneMain::loadResources() {
 	p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/sample2.vert","data/shaders/sample2.frag")) return false;
 	PROGRAMS.add("sample2",p);
+	p = new ShaderProgram();
+	if(!p->makeProgram("data/shaders/tex.vert","data/shaders/tex.frag")) return false;
+	PROGRAMS.add("tex",p);
 	//textures
 	Texture* tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_0.png",true)) return false;
@@ -60,6 +67,23 @@ bool SceneMain::loadResources() {
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/6x2_1.png",true)) return false;
 	TEXTURES.add("6x2_1",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/person.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
+	TEXTURES.add("person",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
+	TEXTURES.add("person_sheet",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/police_sheet.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
+	TEXTURES.add("police_sheet",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/player_sheet.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
+	TEXTURES.add("player_sheet",tex);
+
 
 	//Create meshes
 	MESHES.add("4x4_0",new Mesh("data/models/4x4_0.obj"));
@@ -80,6 +104,34 @@ bool SceneMain::loadResources() {
 	MESHES.add("6x2_1",new Mesh("data/models/6x2_1.obj"));
 	MESHES.add("6x2_2",new Mesh("data/models/6x2_2.obj"));
 	MESHES.add("6x2_3",new Mesh("data/models/6x2_3.obj"));
+
+	//Character quad
+	{
+		std::vector<Vertex::Element> elements;
+		elements.push_back(Vertex::Element(Vertex::Attribute::Position , Vertex::Element::Float, 3));
+		elements.push_back(Vertex::Element(Vertex::Attribute::TexCoord , Vertex::Element::Float, 2));
+
+		Vertex::Format format(elements);
+		Mesh* charModel = new Mesh(format,0,false);
+
+		struct Vertex {
+				Vertex(vec3f pos, vec2f tex) : pos(pos) , tex(tex) {}
+				vec3f pos;
+				vec2f tex;
+		};
+
+		std::vector<Vertex> data;
+		data.push_back(Vertex(vec3f(-0.5, 0.0, 0), vec2f(0.0, 1.0)));
+		data.push_back(Vertex(vec3f( 0.5, 0.0, 0), vec2f(1.0, 1.0)));
+		data.push_back(Vertex(vec3f(-0.5, 1.0, 0), vec2f(0.0, 0.0)));
+
+		data.push_back(Vertex(vec3f( 0.5, 0.0, 0), vec2f(1.0, 1.0)));
+		data.push_back(Vertex(vec3f( 0.5, 1.0, 0), vec2f(1.0, 0.0)));
+		data.push_back(Vertex(vec3f(-0.5, 1.0, 0), vec2f(0.0, 0.0)));
+
+		charModel->setVertexData(&data[0],data.size());
+		MESHES.add("charModel",charModel);
+	}
 	return true;
 }
 

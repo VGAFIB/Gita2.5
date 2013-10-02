@@ -12,10 +12,10 @@ AnimationPlayer::AnimationPlayer(Animation *data) {
 	setAnimData(data);
 }
 
-void AnimationPlayer::Update(float GameTime) {
+void AnimationPlayer::update(float deltaTime) {
 	if (data == NULL) return;
 
-	float time = GameTime;
+	float time = deltaTime;
 	while (time != 0) {
 		if (time <= frameTimeLeft) {
 			frameTimeLeft -= time;
@@ -23,12 +23,12 @@ void AnimationPlayer::Update(float GameTime) {
 		}
 		else {
 			time -= frameTimeLeft;
-			NextFrame();
+			nextFrame();
 		}
 	}
 }
 
-void AnimationPlayer::NextFrame() {
+void AnimationPlayer::nextFrame() {
 	const AnimationTrack& anim = data->animations[animSelected];
 	if (frameSelected+1 >= (int)anim.frames.size()) {
 		if (loopsLeft > 0) --loopsLeft;
@@ -42,7 +42,7 @@ bool AnimationPlayer::setAnimData(Animation* _data) {
 	if (_data->animations.size() == 0) return false;
 
 	data = _data;
-	if (!SelectAnim(0)) {
+	if (!selectAnim(0)) {
 		data = NULL;
 		return false;
 	}
@@ -70,13 +70,13 @@ int AnimationPlayer::getLoopsLeft() const {
 	return loopsLeft;
 }
 
-bool AnimationPlayer::SelectAnim(std::string name) {
+bool AnimationPlayer::selectAnim(std::string name) {
 	int id = getAnimID(name);
 	if (id < 0) return false;
-	return SelectAnim(id);
+	return selectAnim(id);
 }
 
-bool AnimationPlayer::SelectAnim(int animID) {
+bool AnimationPlayer::selectAnim(int animID) {
 	if (data == NULL) return false;
 	if (data->animations[animID].frames.size() == 0) return false;
 
@@ -91,7 +91,12 @@ bool AnimationPlayer::SelectAnim(int animID) {
 	return true;
 }
 
-bool Animation::Load(std::string filename) {
+Animation::Animation() {}
+Animation::Animation(std::string filename) {
+	loadFromFile(filename);
+}
+
+bool Animation::loadFromFile(std::string filename) {
 	std::ifstream in(filename.c_str());
 
 	if (in.fail()) {
@@ -119,13 +124,13 @@ bool Animation::Load(std::string filename) {
 			continue; //Ignore blank line
 		}
 		if (param == std::string("ANIM") ) {
-			ReadANIM(currentAnimName, currentAnimTrack, line, lineNum);
+			readAnim(currentAnimName, currentAnimTrack, line, lineNum);
 		}
 		else if (currentAnimTrack == NULL) {
 			std::cerr << "Error "<<lineNum<<": Animation name undefined yet." << std::endl;
 		}
 		else {
-			ReadFRAME(currentAnimTrack, line);
+			readFrame(currentAnimTrack, line);
 		}
 	}
 
@@ -146,8 +151,8 @@ bool Animation::Load(std::string filename) {
 	return true;
 }
 
-bool Animation::Save(const char* filename) {
-	std::ofstream out(filename, std::ios_base::out | std::ios_base::trunc);
+bool Animation::saveToFile(std::string filename) {
+	std::ofstream out(filename.c_str(), std::ios_base::out | std::ios_base::trunc);
 
 	std::vector<std::string> aux(animations.size());
 	std::map<std::string, int>::iterator it = animNames.begin();
@@ -168,7 +173,7 @@ bool Animation::Save(const char* filename) {
 	return true;
 }
 
-bool Animation::ReadANIM(std::string &currentAnimName, AnimationTrack *&currentAnimTrack, std::string &line, int lineNum) {
+bool Animation::readAnim(std::string &currentAnimName, AnimationTrack *&currentAnimTrack, std::string &line, int lineNum) {
 
 	//Leemos el nombre de la animacion situado entre comillas.
 	size_t quoteStart = line.find('\"', 0);
@@ -231,7 +236,7 @@ bool Animation::ReadANIM(std::string &currentAnimName, AnimationTrack *&currentA
 	return true;
 }
 
-bool Animation::ReadFRAME(AnimationTrack *&currentAnimTrack, std::string &line)  {
+bool Animation::readFrame(AnimationTrack *&currentAnimTrack, std::string &line)  {
 	//TODO CHECK ERRORS
 	std::stringstream sline(line);
 

@@ -14,7 +14,10 @@ SOURCES += \
     SceneMain/Animation.cpp \
     SceneMain/Npc.cpp \
     SceneMain/Person.cpp \
-    SceneMain/Population.cpp
+    SceneMain/Population.cpp \
+    SceneMain/Police.cpp \
+    SceneMain/Player.cpp \
+    SceneMain/Input.cpp
 
 HEADERS += \
 	SceneMain/SceneMain.hpp \
@@ -26,7 +29,10 @@ HEADERS += \
     SceneMain/Animation.hpp \
     SceneMain/Npc.hpp \
     SceneMain/Person.hpp \
-    SceneMain/Population.hpp
+    SceneMain/Population.hpp \
+    SceneMain/Police.hpp \
+    SceneMain/Player.hpp \
+    SceneMain/Input.hpp
 
 OTHER_FILES += \
 	data/shaders/sample.vert \

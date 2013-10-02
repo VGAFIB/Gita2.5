@@ -10,8 +10,8 @@ Character::Character() {
 	texName = "person";
 	action = "Idle";
 	drawDead = false;
-	model.mesh = MESHES.get("charModel");
-	model.program = PROGRAMS.get("tex");
+	model.mesh = Meshes.get("charModel");
+	model.program = Programs.get("tex");
 	map = static_cast<Map*>(GameObject::getObjectByName("map"));
 }
 
@@ -21,7 +21,7 @@ Character::~Character() {
 void Character::ensureAnim(std::string name) {
 	if(name == currAnim) return;
 	currAnim = name;
-	anim.SelectAnim(name);
+	anim.selectAnim(name);
 }
 
 void Character::draw() const {
@@ -50,14 +50,14 @@ void Character::draw() const {
 //		transform = glm::rotate(transform, -26.0f, vec3f(1, 0, 0));
 //	}
 	vec4f frame = vec4f(anim.getCurrentFrame());
-	vec2i size(TEXTURES.get(texName)->getWidth(),TEXTURES.get(texName)->getHeight());
+	vec2i size(Textures.get(texName)->getWidth(),Textures.get(texName)->getHeight());
 	frame.x /= size.x;
 	frame.y /= size.y;
 	frame.z /= size.x;
 	frame.w /= size.y;
 	model.program->uniform("texBounds")->set(frame);
 	model.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
-	model.program->uniform("tex")->set(TEXTURES.get(texName));
+	model.program->uniform("tex")->set(Textures.get(texName));
 	model.draw();
 }
 
@@ -74,7 +74,7 @@ void Character::update(float deltaTime) {
 	else if (faceDir == FACE_LEFT)  ensureAnim(action2+"Left");
 	else if (faceDir == FACE_RIGHT) ensureAnim(action2+"Right");
 
-	anim.Update(deltaTime);
+	anim.update(deltaTime);
 
 	transform = glm::translate(mat4f(1.0), vec3f(pos.x, 0, pos.y));
 }

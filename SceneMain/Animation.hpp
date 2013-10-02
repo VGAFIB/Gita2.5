@@ -18,19 +18,22 @@ class Animation {
 		std::vector<AnimationTrack> animations;
 		std::map<std::string, int> animNames; //Name -> Vector pos
 
-		bool Load(std::string filename);
-		bool Save(const char* filename);
+		Animation();
+		Animation(std::string filename);
+
+		bool loadFromFile(std::string filename);
+		bool saveToFile(std::string filename);
 
 		std::set<std::string> getContentFilename();
 		void getContentFilename(std::set<std::string>& contentFilename);
 
 	private:
-		bool ReadANIM (
+		bool readAnim (
 				std::string& currentAnimName,
 				AnimationTrack*& currentAnimTrack,
 				std::string& line, int lineNum);
 
-		bool ReadFRAME (AnimationTrack*& currentAnimTrack,
+		bool readFrame (AnimationTrack*& currentAnimTrack,
 				std::string& line);
 };
 
@@ -40,13 +43,13 @@ class AnimationPlayer
 		AnimationPlayer();
 		AnimationPlayer(Animation *data);
 
-		virtual void Update(float GameTime);
+		virtual void update(float deltaTime);
 
 		int getAnimID(std::string name);
 		int getLoopsLeft() const;
 		bool setAnimData(Animation* data);
-		bool SelectAnim(std::string name);
-		bool SelectAnim(int animID);
+		bool selectAnim(std::string name);
+		bool selectAnim(int animID);
 
 		vec4i getCurrentFrame() const;
 
@@ -57,7 +60,7 @@ class AnimationPlayer
 		int frameSelected;
 		float frameTimeLeft;
 
-		void NextFrame();
+		void nextFrame();
 };
 
 #endif // ANIMATION_HPP

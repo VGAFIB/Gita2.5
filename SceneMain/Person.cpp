@@ -2,22 +2,14 @@
 #include "Map.hpp"
 
 #define NUANIMS_DATA 6
-Animation* s_person_data[NUANIMS_DATA] = {
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL
-};
 
 const char* s_person_dataFilenames[NUANIMS_DATA] = {
-	"data/anim/calvo.anim",
-	"data/anim/tupe.anim",
-	"data/anim/gordo.anim",
-	"data/anim/rubiaca.anim",
-	"data/anim/morenaca.anim",
-	"data/anim/moderno.anim"
+	"calvo",
+	"tupe",
+	"gordo",
+	"rubiaca",
+	"morenaca",
+	"moderno"
 };
 
 Person::Person() {
@@ -34,11 +26,7 @@ Person::Person() {
 	confuseCooldown = 0.0f;
 
 	int rand = Utils::randomInt(0, NUANIMS_DATA-1);
-	if (s_person_data[rand] == NULL) {
-		s_person_data[rand] = new Animation();
-		s_person_data[rand]->Load(s_person_dataFilenames[rand]);
-	}
-	anim.setAnimData(s_person_data[rand]);
+	anim.setAnimData(Animations.get(s_person_dataFilenames[rand]);
 
 	//dieSoundBuff.loadFromFile("audio/wilhelmscream.ogg");
 	//dieSound.setBuffer(dieSoundBuff);

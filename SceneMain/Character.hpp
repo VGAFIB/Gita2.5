@@ -1,5 +1,5 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
 
 #include "Animation.hpp"
 
@@ -40,4 +40,4 @@ class Character : public GameObject {
 		void moveInDir(vec2f dir, float deltaTime);
 };
 
-#endif // CHARACTER_H
+#endif // CHARACTER_HPP

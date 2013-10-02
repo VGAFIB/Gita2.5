@@ -13,7 +13,8 @@ SOURCES += \
     SceneMain/Character.cpp \
     SceneMain/Animation.cpp \
     SceneMain/Npc.cpp \
-    SceneMain/Person.cpp
+    SceneMain/Person.cpp \
+    SceneMain/Population.cpp
 
 HEADERS += \
 	SceneMain/SceneMain.hpp \
@@ -24,7 +25,8 @@ HEADERS += \
     SceneMain/Character.hpp \
     SceneMain/Animation.hpp \
     SceneMain/Npc.hpp \
-    SceneMain/Person.hpp
+    SceneMain/Person.hpp \
+    SceneMain/Population.hpp
 
 OTHER_FILES += \
 	data/shaders/sample.vert \

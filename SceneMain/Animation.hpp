@@ -1,5 +1,5 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 #include "Commons.hpp"
 
 struct AnimationFrame {
@@ -60,5 +60,5 @@ class AnimationPlayer
 		void NextFrame();
 };
 
-#endif // ANIMATION_H
+#endif // ANIMATION_HPP
 

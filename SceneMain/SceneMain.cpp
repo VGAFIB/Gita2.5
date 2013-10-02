@@ -68,21 +68,17 @@ bool SceneMain::loadResources() {
 	if(!tex->loadFromFile("data/textures/6x2_1.png",true)) return false;
 	TEXTURES.add("6x2_1",tex);
 	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/person.png")) return false;
+	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
 	TEXTURES.add("person",tex);
 	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
-	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	TEXTURES.add("person_sheet",tex);
-	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/police_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	TEXTURES.add("police_sheet",tex);
+	TEXTURES.add("police",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/player_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	TEXTURES.add("player_sheet",tex);
+	TEXTURES.add("player",tex);
 
 
 	//Create meshes

@@ -1,11 +1,14 @@
 #include "Player.hpp"
 #include "Person.hpp"
 #include "SceneMain.hpp"
+#include "Map.hpp"
+#include "Population.hpp"
+#include "PerspectiveCamera.hpp"
 
-Player::Player(SceneMain* sc) : Character(sc)
+Player::Player() : Character()
 {
-    pos.x = 0;
-    pos.y = 0;
+	position.x = 0;
+	position.y = 0;
 
     actionDelay = 0;
 
@@ -14,11 +17,10 @@ Player::Player(SceneMain* sc) : Character(sc)
 
     jailed = false;
 	vel = 5;
-
 	anim.setAnimData(Animations.get("takena"));
 	texName = "player";
 
-	position = vec2f(sc->map->getRandomStreet())+0.5f;
+	position = vec2f(map->getRandomStreet())+0.5f;
 }
 
 void Player::hitAction()
@@ -28,6 +30,9 @@ void Player::hitAction()
 
 vec2f Player::moveCharacter(float delta)
 {
+
+	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(GameObject::getObjectByName("cam"));
+	cam->pos = vec3f(position.x,8,position.y+8);
 
 	drawDead = jailed;
     if(jailed)
@@ -39,10 +44,10 @@ vec2f Player::moveCharacter(float delta)
 	playerInput.update();
 
 
-	if (playerInput.getKeyDown(Input::PLAYER_ACTION)) {
+	if (playerInput.getKeyDown(PlayerInput::PLAYER_ACTION)) {
 
         hitAction();
-		std::vector<Person*> persons = scene->getPeopleAround(getPosition(), 1, SceneMain::SEARCH_ANY);
+		std::vector<Person*> persons = population->getNearbyCharacters<Person>(position, 1);
         for (std::vector<Person*>::iterator it = persons.begin(); it != persons.end(); ++it) {
             if (!(*it)->is_alive()) continue;
 
@@ -76,16 +81,17 @@ vec2f Player::moveCharacter(float delta)
     {
         vec2f dir (0, 0);
 
-		if (playerInput.getKeyState(Input::PLAYER_UP) && !playerInput.getKeyState(Input::PLAYER_DOWN))
+		if (playerInput.getKeyState(PlayerInput::PLAYER_UP) && !playerInput.getKeyState(PlayerInput::PLAYER_DOWN))
             dir.y = -1;
-		if (playerInput.getKeyState(Input::PLAYER_DOWN) && !playerInput.getKeyState(Input::PLAYER_UP))
+		if (playerInput.getKeyState(PlayerInput::PLAYER_DOWN) && !playerInput.getKeyState(PlayerInput::PLAYER_UP))
             dir.y = 1;
-		if (playerInput.getKeyState(Input::PLAYER_LEFT) && !playerInput.getKeyState(Input::PLAYER_RIGHT))
+		if (playerInput.getKeyState(PlayerInput::PLAYER_LEFT) && !playerInput.getKeyState(PlayerInput::PLAYER_RIGHT))
             dir.x = -1;
-		if (playerInput.getKeyState(Input::PLAYER_RIGHT) && !playerInput.getKeyState(Input::PLAYER_LEFT))
+		if (playerInput.getKeyState(PlayerInput::PLAYER_RIGHT) && !playerInput.getKeyState(PlayerInput::PLAYER_LEFT))
             dir.x = 1;
 
 		action = "Idle";
+
 		return dir*vel*delta;
     }
     else
@@ -94,6 +100,7 @@ vec2f Player::moveCharacter(float delta)
 		action = "Attack";
         return vec2f(0, 0);
     }
+
 }
 
 void Player::gotCaught() {

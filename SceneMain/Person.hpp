@@ -24,7 +24,7 @@ class Person : public Npc {
 	bool knowsPlayer(int i);
 
 	private:
-	float getClosestMenace(vec2f pos, vec2f& menacePos);
+	float getClosestMenace(vec2f position, vec2f& menacePos);
 	void lookAtRandomPlace();
 
 	float ix, iy;

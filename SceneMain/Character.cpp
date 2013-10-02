@@ -1,9 +1,10 @@
 #include "Character.hpp"
 #include "Map.hpp"
+#include "Population.hpp"
 
 Character::Character() {
 	vel = 2.50f;
-	pos = vec2f(3, 3);
+	position = vec2f(3, 3);
 	faceDir = FACE_DOWN;
 
 	deadrot = Utils::randomFloat(0, 360);
@@ -13,12 +14,13 @@ Character::Character() {
 	model.mesh = Meshes.get("charModel");
 	model.program = Programs.get("tex");
 	map = static_cast<Map*>(GameObject::getObjectByName("map"));
+	population = static_cast<Population*>(GameObject::getObjectByName("population"));
 }
 
 Character::~Character() {
 }
 
-void Character::ensureAnim(std::string name) {
+void Character::setAnimation(std::string name) {
 	if(name == currAnim) return;
 	currAnim = name;
 	anim.selectAnim(name);
@@ -69,19 +71,19 @@ void Character::update(float deltaTime) {
 	if(action2 == "Idle" && glm::length(dir) > 0.01)
 		action2 = "Walking";
 
-	if      (faceDir == FACE_UP)    ensureAnim(action2+"Up");
-	else if (faceDir == FACE_DOWN)  ensureAnim(action2+"Down");
-	else if (faceDir == FACE_LEFT)  ensureAnim(action2+"Left");
-	else if (faceDir == FACE_RIGHT) ensureAnim(action2+"Right");
+	if      (faceDir == FACE_UP)    setAnimation(action2+"Up");
+	else if (faceDir == FACE_DOWN)  setAnimation(action2+"Down");
+	else if (faceDir == FACE_LEFT)  setAnimation(action2+"Left");
+	else if (faceDir == FACE_RIGHT) setAnimation(action2+"Right");
 
 	anim.update(deltaTime);
 
-	transform = glm::translate(mat4f(1.0), vec3f(pos.x, 0, pos.y));
+	transform = glm::translate(mat4f(1.0), vec3f(position.x, 0, position.y));
 }
 
 void Character::move(vec2f posf)
 {
-	const vec2f &pos0 = pos;
+	const vec2f &pos0 = position;
 
 	float rad = 0.3;
 	float margin = 0.1;
@@ -150,7 +152,7 @@ vert_exit:
 	}
 horz_exit:
 
-	pos = posf;
+	position = posf;
 }
 
 
@@ -171,20 +173,25 @@ void Character::moveInDir(vec2f dir, float deltaTime)
 	if(dir.x >  0.5f) faceDir = FACE_RIGHT;
 	if(dir.y >  0.5f) faceDir = FACE_DOWN;
 
-	vec2f dest = pos + dir*deltaTime*vel;
-	move(vec2f(pos.x, dest.y));
-	move(vec2f(dest.x, pos.y));
+	vec2f dest = position + dir*deltaTime*vel;
+	move(vec2f(position.x, dest.y));
+	move(vec2f(dest.x, position.y));
 }
 
 bool Character::canSee(const vec2f& destPos)
 {
-	vec2f dirCorpse = destPos-pos;
-	if(glm::length(dirCorpse) > 12)
+	vec2f dirCorpse = destPos-position;
+	if(glm::length(dirCorpse) > getSeeRadius())
 		return false;
 
 	vec2f dirFacing((float) dirInc[faceDir].x, (float) dirInc[faceDir].y);
 	dirCorpse = glm::normalize(dirCorpse);
 	dirFacing = glm::normalize(dirFacing);
 
-	return glm::dot(dirCorpse,dirFacing) >= 0.0f && map->lineOfSight(pos, destPos);
+	return glm::dot(dirCorpse,dirFacing) >= 0.0f && map->lineOfSight(position, destPos);
+}
+
+float Character::getSeeRadius()
+{
+	return 12;
 }

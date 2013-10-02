@@ -9,7 +9,7 @@ Npc::Npc() {
 void Npc::setGoal(vec2f goal) {
     this->goal = goal;
 
-	vec2i from = vec2i(pos);
+	vec2i from = vec2i(position);
     vec2i to = vec2i(goal);
 
 	if(map->solid(from.x, from.y)) {
@@ -93,7 +93,7 @@ vec2f Npc::dirTowardsGoal()
 {
     if(!hasGoal) return vec2f(0, 0);
 
-	while(!path.empty() && glm::distance(path.front(), pos) < 0.2)
+	while(!path.empty() && glm::distance(path.front(), position) < 0.2)
         path.pop();
 
     if(path.empty())
@@ -103,5 +103,5 @@ vec2f Npc::dirTowardsGoal()
     }
 
     vec2f to = path.front();
-	return to-pos;
+	return to-position;
 }

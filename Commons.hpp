@@ -2,7 +2,6 @@
 #define COMMONS_HPP
 #include "VBE/includes.hpp"
 #include <queue>
-#include "SceneMain/Animation.hpp"
 
 namespace Utils {
 	extern std::mt19937 mersenne;
@@ -45,6 +44,5 @@ namespace Utils {
 	}
 }
 
-Manager<Animation> Animations;
 
 #endif // COMMONS_HPP

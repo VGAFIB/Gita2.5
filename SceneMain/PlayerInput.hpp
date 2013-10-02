@@ -4,7 +4,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-class Input
+class PlayerInput
 {
 public:
 	enum Key
@@ -19,7 +19,7 @@ public:
 		K_SIZE
 	};
 
-	Input();
+	PlayerInput();
 
 	void update();
 

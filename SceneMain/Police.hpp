@@ -11,7 +11,7 @@ class Police : public Npc {
 
 	private:
 
-		vec2f getNewGoal(vec2f pos);
+		vec2f getNewGoal(vec2f position);
 		void lookAtRandomPlace();
 
 		bool onLeftCollision(int x, int j);
@@ -34,10 +34,10 @@ class Police : public Npc {
 		float alertTime;
 		vec2f lastAlertPos;
 
-		vector<float> lastPosSawTime;
-		vector<vec2f> lastPosSawPlayer;
-		vector<vec2f> lastDirSawPlayer;
-		vector<bool> knowPlayer;
+		std::vector<float> lastPosSawTime;
+		std::vector<vec2f> lastPosSawPlayer;
+		std::vector<vec2f> lastDirSawPlayer;
+		std::vector<bool> knowPlayer;
 		int chasingPlayerNum;
 		bool collided;
 };

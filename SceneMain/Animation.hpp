@@ -63,5 +63,7 @@ class AnimationPlayer
 		void nextFrame();
 };
 
+extern Manager<Animation> Animations;
+
 #endif // ANIMATION_HPP
 

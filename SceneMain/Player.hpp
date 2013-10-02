@@ -2,12 +2,12 @@
 #define PLAYER_H
 
 #include "Character.hpp"
-#include "Input.hpp"
+#include "PlayerInput.hpp"
 
 class Player : public Character {
 public:
 
-    Player(SceneMain* sc);
+	Player();
 
     virtual vec2f moveCharacter(float deltaTime);
     void hitAction();
@@ -21,7 +21,7 @@ public:
 
     bool isDoingAction() { return actionDelay > 0; }
 
-	Input playerInput;
+	PlayerInput playerInput;
 
     bool jailed;
 

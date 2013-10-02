@@ -3,6 +3,9 @@
 #include "Map.hpp"
 #include "House.hpp"
 #include "Person.hpp"
+#include "Population.hpp"
+#include "Police.hpp"
+#include "Player.hpp"
 
 SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	this->setName("SCENE");
@@ -19,8 +22,14 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	cam->rot.x = 45.0f;
 	addObject(cam);
 	cam->addObject(new Map());
+	Population* p = new Population();
+	cam->addObject(p);
+	p->addObject(new Player());
 	for(int i = 0; i < 1000; ++i) {
-		cam->addObject(new Person());
+		p->addObject(new Person());
+	}
+	for(int i = 0; i < 100; ++i) {
+		p->addObject(new Police());
 	}
 }
 

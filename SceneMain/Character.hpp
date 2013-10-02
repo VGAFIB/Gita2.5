@@ -8,6 +8,8 @@ enum FaceDir {
 };
 
 class Map;
+class Population;
+
 class Character : public GameObject {
 	public:
 		Character();
@@ -18,20 +20,23 @@ class Character : public GameObject {
 		void update(float deltaTime);
 		void draw() const;
 		virtual vec2f moveCharacter(float deltaTime) = 0;
-		vec2f getPosition() const { return pos; }
+		vec2f getPosition() const { return position; }
+
+		float getSeeRadius();
 
 	protected:
 
 		std::string currAnim;
-		void ensureAnim(std::string name);
+		void setAnimation(std::string name);
 
 		AnimationPlayer anim;
 		std::string texName;
 		std::string action;
 
 		FaceDir faceDir;
-		vec2f pos;
+		vec2f position;
 		Map* map;
+		Population* population;
 		Model model;
 
 		float vel;

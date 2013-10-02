@@ -1,5 +1,7 @@
 #include "Animation.hpp"
 
+Manager<Animation> Animations;
+
 AnimationPlayer::AnimationPlayer() {
 	data = NULL;
 	animSelected = 0;
@@ -274,3 +276,4 @@ void Animation::getContentFilename(std::set<std::string> &contentFilename)  {
 		contentFilename.insert(it->spritesheetFilename);
 	}
 }
+

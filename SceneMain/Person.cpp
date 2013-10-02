@@ -26,7 +26,7 @@ Person::Person() {
 	confuseCooldown = 0.0f;
 
 	int rand = Utils::randomInt(0, NUANIMS_DATA-1);
-	anim.setAnimData(Animations.get(s_person_dataFilenames[rand]);
+	anim.setAnimData(Animations.get(s_person_dataFilenames[rand]));
 
 	//dieSoundBuff.loadFromFile("audio/wilhelmscream.ogg");
 	//dieSound.setBuffer(dieSoundBuff);
@@ -41,7 +41,7 @@ Person::Person() {
 	ix = Utils::randomFloat(0.4, 0.6);
 	iy = Utils::randomFloat(0.4, 0.6);
 
-	pos = vec2f(map->getRandomStreet())+0.5f;
+	position = vec2f(map->getRandomStreet())+0.5f;
 }
 
 
@@ -170,13 +170,13 @@ vec2f Person::moveCharacter(float delta) {
 //					panicTime = startPanicTime;
 //			}
 
-			vec2i now = vec2i(pos);
+			vec2i now = vec2i(position);
 			vec2i best = now;
 			vec2f menacePos;
-			float bestd = getClosestMenace(pos, menacePos);
+			float bestd = getClosestMenace(position, menacePos);
 
 			if(bestd < 3)
-				return(vec2f(pos - menacePos));
+				return(vec2f(position - menacePos));
 			else
 			{
 				for(int i = 0; i < 4; i++)
@@ -192,7 +192,7 @@ vec2f Person::moveCharacter(float delta) {
 				}
 
 				vec2f togo = vec2f(best.x+ix, best.y+iy);
-				vec2f dir  = togo - pos;
+				vec2f dir  = togo - position;
 				return dir;
 			}
 			break;

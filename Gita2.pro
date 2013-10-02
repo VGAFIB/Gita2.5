@@ -17,7 +17,7 @@ SOURCES += \
     SceneMain/Population.cpp \
     SceneMain/Police.cpp \
     SceneMain/Player.cpp \
-    SceneMain/Input.cpp
+    SceneMain/PlayerInput.cpp
 
 HEADERS += \
 	SceneMain/SceneMain.hpp \
@@ -32,7 +32,7 @@ HEADERS += \
     SceneMain/Population.hpp \
     SceneMain/Police.hpp \
     SceneMain/Player.hpp \
-    SceneMain/Input.hpp
+    SceneMain/PlayerInput.hpp
 
 OTHER_FILES += \
 	data/shaders/sample.vert \

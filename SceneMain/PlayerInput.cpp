@@ -1,7 +1,7 @@
-#include "Input.hpp"
+#include "PlayerInput.hpp"
 #include <iostream>
 
-Input::Input()
+PlayerInput::PlayerInput()
 {
 	keyMap[PLAYER_UP] = sf::Keyboard::W;
 	keyMap[PLAYER_DOWN] = sf::Keyboard::S;
@@ -36,7 +36,7 @@ Input::Input()
 }
 
 
-std::string Input::encodeToString() {
+std::string PlayerInput::encodeToString() {
 
     std::string encoded(K_SIZE, ' ');
 
@@ -46,7 +46,7 @@ std::string Input::encodeToString() {
     return encoded;
 }
 
-void Input::decodeFromString(std::string encoded) {
+void PlayerInput::decodeFromString(std::string encoded) {
 
     for (int i = 0; i < K_SIZE; ++i)
     {
@@ -60,7 +60,7 @@ void Input::decodeFromString(std::string encoded) {
     firstUpdate = false;
 }
 
-void Input::update()
+void PlayerInput::update()
 {
     //MousePos = sf::Mouse::getPosition(*App);
 
@@ -83,35 +83,35 @@ void Input::update()
     firstUpdate = false;
 }
 
-bool Input::getKeyState(int key) {
+bool PlayerInput::getKeyState(int key) {
 	return keyState[key];
 }
 
-bool Input::getKeyUp(int key) {
+bool PlayerInput::getKeyUp(int key) {
 	return keyStateOld[key] && !keyState[key];
 }
 
-bool Input::getKeyDown(int key) {
+bool PlayerInput::getKeyDown(int key) {
 	return !keyStateOld[key] && keyState[key];
 }
 
-bool Input::getMouseDown(sf::Mouse::Button button) {
+bool PlayerInput::getMouseDown(sf::Mouse::Button button) {
 	return !mouseState[button] && mouseState[button];
 }
 
-bool Input::getMouseUp(sf::Mouse::Button button) {
+bool PlayerInput::getMouseUp(sf::Mouse::Button button) {
 	return mouseState[button] && !mouseState[button];
 }
 
-sf::Vector2f Input::getMousePos() {
+sf::Vector2f PlayerInput::getMousePos() {
     //return App->convertCoords(MousePos);
 }
 
-sf::Vector2f Input::getGlobalMousePos() {
+sf::Vector2f PlayerInput::getGlobalMousePos() {
     return globalMousePos;
 }
 
-void Input::setGlobalMousePos(const sf::Vector2f& pos) {
+void PlayerInput::setGlobalMousePos(const sf::Vector2f& pos) {
     globalMousePos = pos;
 }
 

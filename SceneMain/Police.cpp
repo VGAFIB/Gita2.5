@@ -35,7 +35,7 @@ vec2f Police::moveCharacter(float delta)
 	//TODO Multiplayer logic
 	//	Player* p = population->getPlayer(0];
 
-	std::vector<Character*> personList = population->getSeenCharacters<Character>(position);
+	std::vector<Character*> personList = population->getSeenCharacters<Character>(this);
 
 	for (std::vector<Character*>::iterator it = personList.begin(); it != personList.end(); it++)
 	{
@@ -154,7 +154,7 @@ vec2f Police::moveCharacter(float delta)
 		{
 			Player* player = population->getPlayer(i);
 
-			//if(player->jailed) continue;
+			if(player->jailed) continue;
 
 			if(canSee(player->getPosition())) {
 				knowPlayer[i] = knowPlayer[i] || player->isDoingAction();

@@ -57,8 +57,8 @@ Map::Map() {
 	Utils::seedRandom(time(0));
 	setDrawPriority(-1);
 
-	int sizex = 300;
-	int sizey = 200;
+	int sizex = 100;
+	int sizey = 100;
 	tiles = vector<vector<Tile> > (sizex, vector<Tile>(sizey));
 
 	//Set everything to garden

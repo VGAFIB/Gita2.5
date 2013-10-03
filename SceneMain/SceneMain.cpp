@@ -29,7 +29,7 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 		p->addObject(new Person());
 	}
 	for(int i = 0; i < 100; ++i) {
-		p->addObject(new Police());
+//		p->addObject(new Police());
 	}
 }
 
@@ -142,7 +142,6 @@ bool SceneMain::loadResources() {
 
 	Animations.add("takena", new Animation("data/anim/takena.anim"));
 	Animations.add("poli", new Animation("data/anim/poli.anim"));
-
 	Animations.add("calvo", new Animation("data/anim/calvo.anim"));
 	Animations.add("tupe", new Animation("data/anim/tupe.anim"));
 	Animations.add("gordo", new Animation("data/anim/gordo.anim"));

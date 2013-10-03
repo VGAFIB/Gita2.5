@@ -183,6 +183,7 @@ bool Character::canSee(const vec2f& destPos)
 	vec2f dirCorpse = destPos-position;
 	if(glm::length(dirCorpse) > getSeeRadius())
 		return false;
+	else if(glm::length(dirCorpse) == 0) return true;
 
 	vec2f dirFacing((float) dirInc[faceDir].x, (float) dirInc[faceDir].y);
 	dirCorpse = glm::normalize(dirCorpse);

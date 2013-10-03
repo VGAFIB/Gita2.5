@@ -1,5 +1,6 @@
 #include "Person.hpp"
-#include "Map.hpp"
+#include "Population.hpp"
+#include "Player.hpp"
 
 #define NUANIMS_DATA 6
 
@@ -19,9 +20,9 @@ Person::Person() {
 	startPanicTime = 10.0f;
 	state = STATE_WALKING;
 
-	//knowsPlayers = vector<bool>(scene->players.size(), false);
-	//lastSawPlayer = vector<vec2f>(scene->players.size());
-	//playerActionTime = vector<float>(scene->players.size(), 10000);
+	knowsPlayers = std::vector<bool>(population->getPlayerCount(), false);
+	lastSawPlayer = std::vector<vec2f>(population->getPlayerCount());
+	playerActionTime = std::vector<float>(population->getPlayerCount(), 10000);
 
 	confuseCooldown = 0.0f;
 
@@ -109,16 +110,16 @@ vec2f Person::moveCharacter(float delta) {
 			if(!hasGoal)
 				setGoal(vec2f(map->getRandomStreet()));
 
-//			for(int i = 0; i < (int)scene->players.size(); i++)
-//			{
-//				if(scene->players[i]->jailed) continue;
-//				if ((knowsPlayers[i] || scene->players[i]->isDoingAction()) && canSee(scene->players[i]->getPosition()))
-//				{
-//					state = STATE_PANIC;
-//					panicTime = startPanicTime;
-//					panicSource = scene->players[i]->getPosition();
-//				}
-//			}
+			for(int i = 0; i < population->getPlayerCount(); i++)
+			{
+				if(population->getPlayer(i)->jailed) continue;
+				if ((knowsPlayers[i] || population->getPlayer(i)->isDoingAction()) && canSee(population->getPlayer(i)->getPosition()))
+				{
+					state = STATE_PANIC;
+					panicTime = startPanicTime;
+					panicSource = population->getPlayer(i)->getPosition();
+				}
+			}
 
 //			vector<Person*> v = scene->getPeopleSeen(this, SceneMain::SEARCH_DEAD);
 //			for(int j = 0; j < (int) v.size(); j++)
@@ -210,26 +211,26 @@ vec2f Person::moveCharacter(float delta) {
 			}
 
 
-//			vector<Person*> v = scene->getPeopleSeen(this, SceneMain::SEARCH_DEAD);
-//			for(int j = 0; j < v.size(); j++) {
-//				state = STATE_PANIC;
-//				panicTime = startPanicTime;
-//				panicSource = v[j]->getPosition();
-//				for(int i = 0; i < (int)scene->players.size(); i++)
-//					if (glm::distance(v[j]->position, lastSawPlayer[i]) < 3) knowsPlayers[i] = true;
-//			}
+			std::vector<Person*> v = population->getSeenCharacters<Person>(this);
+			for(int j = 0; j < v.size(); j++) {
+				state = STATE_PANIC;
+				panicTime = startPanicTime;
+				panicSource = v[j]->getPosition();
+				for(int i = 0; i < population->getPlayerCount(); i++)
+					if (glm::distance(v[j]->position, lastSawPlayer[i]) < 3) knowsPlayers[i] = true;
+			}
 
 
-//			for(int i = 0; i < (int)scene->players.size(); i++)
-//			{
-//				if(scene->players[i]->jailed) continue;
-//				if ((knowsPlayers[i] || scene->players[i]->isDoingAction()) && canSee(scene->players[i]->getPosition()))
-//				{
-//					state = STATE_PANIC;
-//					panicTime = startPanicTime;
-//					panicSource = scene->players[i]->getPosition();
-//				}
-//			}
+			for(int i = 0; i < population->getPlayerCount(); i++)
+			{
+				if(population->getPlayer(i)->jailed) continue;
+				if ((knowsPlayers[i] || population->getPlayer(i)->isDoingAction()) && canSee(population->getPlayer(i)->getPosition()))
+				{
+					state = STATE_PANIC;
+					panicTime = startPanicTime;
+					panicSource = population->getPlayer(i)->getPosition();
+				}
+			}
 
 			if (confusedTimeFacing < 0) {
 				//FIXME

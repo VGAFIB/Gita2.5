@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "Population.hpp"
 #include "PerspectiveCamera.hpp"
+#include "CameraController.hpp"
 
 Player::Player() : Character()
 {
@@ -20,7 +21,9 @@ Player::Player() : Character()
 	anim.setAnimData(Animations.get("takena"));
 	texName = "player";
 
+	this->setName("player");
 	position = vec2f(map->getRandomStreet())+0.5f;
+	addObject(new CameraController());
 }
 
 void Player::hitAction()
@@ -28,11 +31,7 @@ void Player::hitAction()
     actionDelay = 0.18f;
 }
 
-vec2f Player::moveCharacter(float delta)
-{
-
-	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(GameObject::getObjectByName("cam"));
-	cam->pos = vec3f(position.x,8,position.y+8);
+vec2f Player::moveCharacter(float delta) {
 
 	drawDead = jailed;
     if(jailed)

@@ -12,11 +12,11 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	//SCENE INIT
 	if (!loadResources()) {
 		VBE_LOG("Could not load resources for SceneMain" );
-		Game::isRunning = false;
+		game->isRunning = false;
 		return;
 	}
 	//Center mouse
-	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,Game::getWindow());
+	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,game->getWindow());
 	PerspectiveCamera* cam = new PerspectiveCamera();
 	cam->pos = vec3f(150,20,100);
 	cam->rot.x = 45.0f;
@@ -156,7 +156,7 @@ void SceneMain::update(float deltaTime) {
 	++fpsCount;
 	debugCounter += deltaTime;
 	if (debugCounter > 1) {
-		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << GameObject::getObjectCount() );
+		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << game->getObjectCount() );
 		debugCounter--;
 		fpsCount = 0;
 	}

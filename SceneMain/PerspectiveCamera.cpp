@@ -14,5 +14,4 @@ void PerspectiveCamera::update(float deltaTime) {
 	transform = glm::rotate(transform,rot.y,vec3f(0,1,0));
 	transform = glm::rotate(transform,rot.z,vec3f(0,0,1));
 	transform = glm::translate(transform, -pos);
-	VBE_LOG("camera");
 }

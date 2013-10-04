@@ -13,13 +13,14 @@ class Map : public GameObject {
 			Building,
 			Fence,
 			Grass,
-			Water
+			Water,
+			Unaccesible
 		};
 
 		struct Tile {
 				TileType type;
 				bool isSolid() const {
-					return (type == Building || type == Fence || type == Water);
+					return (type == Building || type == Fence || type == Water || type == Unaccesible);
 				}
 				bool isGrass() const {
 					return (type == Grass);

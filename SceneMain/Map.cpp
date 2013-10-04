@@ -191,7 +191,7 @@ Map::Map() {
 	for(int x = 0; x < getWidth(); x++)
 		for(int y = 0; y < getHeight(); y++)
 			if(visited[x][y] != bestid && !tile(x, y).isSolid())
-				tile(x, y).type = Building;
+				tile(x, y).type = Unaccesible;
 
 	//Generate the mesh
 	vector<Vertex::Element> elements;
@@ -220,6 +220,9 @@ Map::Map() {
 					break;
 				case Map::Water:
 					color = vec3f(0.1, 0.3, 0.5);
+					break;
+				case Map::Unaccesible:
+					color = vec3f(0.1, 0.2, 0.05);
 					break;
 				default:
 					color = vec3f(0.3, 0.5, 0.1);

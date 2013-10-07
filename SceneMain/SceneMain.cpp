@@ -30,14 +30,14 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	Population* pop = new Population();
 	pop->addTo(cam);
 
-	Player* pl = new Player();
-	pl->addTo(pop);
+	Player* player = new Player();
+	player->addTo(pop);
 
 	for(int i = 0; i < 1000; ++i) {
 		Person* person = new Person();
 		person->addTo(pop);
 	}
-	for(int i = 0; i < 0; ++i) {
+	for(int i = 0; i < 33; ++i) {
 		Police* police = new Police();
 		police->addTo(pop);
 	}
@@ -65,29 +65,32 @@ bool SceneMain::loadResources() {
 	Programs.add("tex",p);
 	//textures
 	Texture* tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/2x6_0.png",true)) return false;
+	Textures.add("2x6_0",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/2x6_1.png",true)) return false;
+	Textures.add("2x6_1",tex);
+	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_0.png",true)) return false;
 	Textures.add("4x4_0",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_1.png",true)) return false;
+	Textures.add("4x4_1",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/4x4_2.png",true)) return false;
+	Textures.add("4x4_2",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_3.png",true)) return false;
 	Textures.add("4x4_3",tex);
 	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/4x4_6.png",true)) return false;
-	Textures.add("4x4_6",tex);
+	if(!tex->loadFromFile("data/textures/4x4_4.png",true)) return false;
+	Textures.add("4x4_4",tex);
 	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/4x4_9.png",true)) return false;
-	Textures.add("4x4_9",tex);
+	if(!tex->loadFromFile("data/textures/ajuntament8x8.png",true)) return false;
+	Textures.add("ajuntament8x8",tex);
 	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/4x4_12.png",true)) return false;
-	Textures.add("4x4_12",tex);
-	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/8x8_0.png",true)) return false;
-	Textures.add("8x8_0",tex);
-	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/6x2_0.png",true)) return false;
-	Textures.add("6x2_0",tex);
-	tex = new Texture(1);
-	if(!tex->loadFromFile("data/textures/6x2_1.png",true)) return false;
-	Textures.add("6x2_1",tex);
+	if(!tex->loadFromFile("data/textures/construccio8x8.png",true)) return false;
+	Textures.add("construccio8x8",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
@@ -100,27 +103,30 @@ bool SceneMain::loadResources() {
 	if(!tex->loadFromFile("data/textures/player_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
 	Textures.add("player",tex);
-
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/blood1.png")) return false;
+	Textures.add("blood1",tex);
 
 	//Create meshes
-	Meshes.add("4x4_0",new Mesh("data/models/4x4_0.obj"));
-	Meshes.add("4x4_1",new Mesh("data/models/4x4_1.obj"));
-	Meshes.add("4x4_2",new Mesh("data/models/4x4_2.obj"));
-	Meshes.add("4x4_3",new Mesh("data/models/4x4_3.obj"));
+	Meshes.add("2x6_0",new Mesh("data/models/2x6_0.obj"));
+	Meshes.add("2x6_1",new Mesh("data/models/2x6_1.obj"));
+	Meshes.add("2x6_2",new Mesh("data/models/2x6_2.obj"));
+	Meshes.add("2x6_3",new Mesh("data/models/2x6_3.obj"));
+	Meshes.add("4x4_0Alt",new Mesh("data/models/4x4_0Alt.obj"));
+	Meshes.add("4x4_0Baix",new Mesh("data/models/4x4_0Baix.obj"));
+	Meshes.add("4x4_0Centre",new Mesh("data/models/4x4_0Centre.obj"));
+	Meshes.add("4x4_1Alt",new Mesh("data/models/4x4_1Alt.obj"));
+	Meshes.add("4x4_1Baix",new Mesh("data/models/4x4_1Baix.obj"));
+	Meshes.add("4x4_1Centre",new Mesh("data/models/4x4_1Centre.obj"));
+	Meshes.add("4x4_2Alt",new Mesh("data/models/4x4_2Alt.obj"));
+	Meshes.add("4x4_2Baix",new Mesh("data/models/4x4_2Baix.obj"));
+	Meshes.add("4x4_2Centre",new Mesh("data/models/4x4_2Centre.obj"));
+	Meshes.add("4x4_3Alt",new Mesh("data/models/4x4_3Alt.obj"));
+	Meshes.add("4x4_3Baix",new Mesh("data/models/4x4_3Baix.obj"));
+	Meshes.add("4x4_3Centre",new Mesh("data/models/4x4_3Centre.obj"));
 	Meshes.add("4x4_4",new Mesh("data/models/4x4_4.obj"));
-	Meshes.add("4x4_5",new Mesh("data/models/4x4_5.obj"));
-	Meshes.add("4x4_6",new Mesh("data/models/4x4_6.obj"));
-	Meshes.add("4x4_7",new Mesh("data/models/4x4_7.obj"));
-	Meshes.add("4x4_8",new Mesh("data/models/4x4_8.obj"));
-	Meshes.add("4x4_9",new Mesh("data/models/4x4_9.obj"));
-	Meshes.add("4x4_10",new Mesh("data/models/4x4_10.obj"));
-	Meshes.add("4x4_11",new Mesh("data/models/4x4_11.obj"));
-	Meshes.add("4x4_12",new Mesh("data/models/4x4_12.obj"));
-	Meshes.add("8x8_0",new Mesh("data/models/8x8_0.obj"));
-	Meshes.add("6x2_0",new Mesh("data/models/6x2_0.obj"));
-	Meshes.add("6x2_1",new Mesh("data/models/6x2_1.obj"));
-	Meshes.add("6x2_2",new Mesh("data/models/6x2_2.obj"));
-	Meshes.add("6x2_3",new Mesh("data/models/6x2_3.obj"));
+	Meshes.add("ajuntament8x8",new Mesh("data/models/ajuntament8x8.obj"));
+	Meshes.add("construccio8x8",new Mesh("data/models/construccio8x8.obj"));
 
 	//Character quad
 	{
@@ -148,6 +154,34 @@ bool SceneMain::loadResources() {
 
 		charModel->setVertexData(&data[0],data.size());
 		Meshes.add("charModel",charModel);
+	}
+
+	//Blood quad
+	{
+		std::vector<Vertex::Element> elements;
+		elements.push_back(Vertex::Element(Vertex::Attribute::Position , Vertex::Element::Float, 3));
+		elements.push_back(Vertex::Element(Vertex::Attribute::TexCoord , Vertex::Element::Float, 2));
+
+		Vertex::Format format(elements);
+		Mesh* bloodModel = new Mesh(format,0,false);
+
+		struct Vertex {
+				Vertex(vec3f pos, vec2f tex) : pos(pos) , tex(tex) {}
+				vec3f pos;
+				vec2f tex;
+		};
+
+		std::vector<Vertex> data;
+		data.push_back(Vertex(vec3f(-1, 0, -1), vec2f(0.0, 1.0)));
+		data.push_back(Vertex(vec3f(-1, 0,  1), vec2f(0.0, 0.0)));
+		data.push_back(Vertex(vec3f( 1, 0, -1), vec2f(1.0, 1.0)));
+
+		data.push_back(Vertex(vec3f( 1, 0,  1), vec2f(1.0, 0.0)));
+		data.push_back(Vertex(vec3f( 1, 0, -1), vec2f(1.0, 1.0)));
+		data.push_back(Vertex(vec3f(-1, 0,  1), vec2f(0.0, 0.0)));
+
+		bloodModel->setVertexData(&data[0],data.size());
+		Meshes.add("bloodModel",bloodModel);
 	}
 
 	Animations.add("takena", new Animation("data/anim/takena.anim"));

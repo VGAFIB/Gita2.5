@@ -27,30 +27,6 @@ void Character::setAnimation(std::string name) {
 }
 
 void Character::draw() const {
-//	mat4f m(1.0);
-//	m = glm::translate(m, pos);
-//	mat4f transform = scene->getState().projection*scene->getState().view*m;
-
-//	if(drawDead) {
-//		scene->bloodModel.program->uniform("modelViewProjectionMatrix")->set(transform);
-//		scene->bloodModel.program->uniform("color")->set(vec4f(0.9, 0.1, 0.2, 0.7));
-//		scene->bloodModel.draw();
-//	}
-
-//	scene->shadowModel.program->uniform("modelViewProjectionMatrix")->set(transform);
-//	scene->shadowModel.program->uniform("color")->set(vec4f(0.0, 0.0, 0.0, 0.3));
-//	scene->shadowModel.draw();
-
-//	if(drawDead) {
-//		transform = glm::translate(transform, vec3f(0, 0.03, 0));
-//		transform = glm::rotate(transform, deadrot, vec3f(0, 1, 0));
-//		transform = glm::rotate(transform, 90.0f, vec3f(0, 0, 1));
-//		transform = glm::rotate(transform, 90.0f, vec3f(0, 1, 0));
-//		transform = glm::translate(transform, vec3f(0, -0.3, 0));
-//	}
-//	else {
-//		transform = glm::rotate(transform, -26.0f, vec3f(1, 0, 0));
-//	}
 	vec4f frame = vec4f(anim.getCurrentFrame());
 	vec2i size(Textures.get(texName)->getWidth(),Textures.get(texName)->getHeight());
 	frame.x /= size.x;
@@ -58,7 +34,15 @@ void Character::draw() const {
 	frame.z /= size.x;
 	frame.w /= size.y;
 	model.program->uniform("texBounds")->set(frame);
-	model.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
+
+	mat4f t = fullTransform;
+	if(drawDead) {
+		t = glm::translate(t, vec3f(0, 0.01, 0));
+		t = glm::rotate(t, deadrot, vec3f(0, 1, 0));
+		t = glm::rotate(t, -90.0f, vec3f(1, 0, 0));
+	}
+	model.program->uniform("alpha")->set(1.0f);
+	model.program->uniform("modelViewProjectionMatrix")->set(t);
 	model.program->uniform("tex")->set(Textures.get(texName));
 	model.draw();
 }
@@ -68,13 +52,16 @@ void Character::update(float deltaTime) {
 	moveInDir(dir, deltaTime);
 
 	std::string action2 = action;
-	if(action2 == "Idle" && glm::length(dir) > 0.01)
+	if(glm::length(dir) > 0.01)
 		action2 = "Walking";
 
-	if      (faceDir == FACE_UP)    setAnimation(action2+"Up");
-	else if (faceDir == FACE_DOWN)  setAnimation(action2+"Down");
-	else if (faceDir == FACE_LEFT)  setAnimation(action2+"Left");
-	else if (faceDir == FACE_RIGHT) setAnimation(action2+"Right");
+	switch(faceDir) {
+		case FACE_UP: setAnimation(action2+"Up"); break;
+		case FACE_DOWN: setAnimation(action2+"Down"); break;
+		case FACE_LEFT: setAnimation(action2+"Left"); break;
+		case FACE_RIGHT: setAnimation(action2+"Right"); break;
+		default: break;
+	}
 
 	anim.update(deltaTime);
 

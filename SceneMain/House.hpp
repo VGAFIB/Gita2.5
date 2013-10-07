@@ -13,7 +13,7 @@ class House : public GameObject {
 				std::string texture;
 		};
 		static const int houseTypeCount;
-		static const HouseData houseTypes[18];
+		static const HouseData houseTypes[19];
 
 		House(int x, int y, int type);
 		virtual ~House();

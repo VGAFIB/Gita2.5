@@ -18,7 +18,8 @@ SOURCES += \
     SceneMain/Police.cpp \
     SceneMain/Player.cpp \
     SceneMain/PlayerInput.cpp \
-    SceneMain/CameraController.cpp
+    SceneMain/CameraController.cpp \
+    SceneMain/Blood.cpp
 
 HEADERS += \
 	SceneMain/SceneMain.hpp \
@@ -34,7 +35,8 @@ HEADERS += \
     SceneMain/Police.hpp \
     SceneMain/Player.hpp \
     SceneMain/PlayerInput.hpp \
-    SceneMain/CameraController.hpp
+    SceneMain/CameraController.hpp \
+    SceneMain/Blood.hpp
 
 OTHER_FILES += \
 	data/shaders/sample.vert \

@@ -1,27 +1,29 @@
 #include "House.hpp"
 
-const int House::houseTypeCount = 18;
+const int House::houseTypeCount = 19;
 
-const House::HouseData House::houseTypes[18] = {
-	HouseData(8,8,"8x8_0", "8x8_0"),
-	HouseData(4,4,"4x4_0", "4x4_0"),
-	HouseData(4,4,"4x4_1", "4x4_0"),
-	HouseData(4,4,"4x4_2", "4x4_0"),
-	HouseData(4,4,"4x4_3", "4x4_3"),
-	HouseData(4,4,"4x4_4", "4x4_3"),
-	HouseData(4,4,"4x4_5", "4x4_3"),
-	HouseData(4,4,"4x4_6", "4x4_6"),
-	HouseData(4,4,"4x4_7", "4x4_6"),
-	HouseData(4,4,"4x4_8", "4x4_6"),
-	HouseData(4,4,"4x4_9", "4x4_9"),
-	HouseData(4,4,"4x4_10", "4x4_9"),
-	HouseData(4,4,"4x4_11", "4x4_9"),
-	HouseData(4,4,"4x4_12", "4x4_12"),
-	HouseData(6,2,"6x2_0", "6x2_0"),
-	HouseData(6,2,"6x2_1", "6x2_1"),
-	HouseData(6,2,"6x2_2", "4x4_9"),
-	HouseData(6,2,"6x2_3", "4x4_6")
+const House::HouseData House::houseTypes[19] = {
+	HouseData(8,8,"ajuntament8x8"	,"ajuntament8x8"),
+	HouseData(8,8,"construccio8x8"	,"construccio8x8"),
+	HouseData(6,2,"2x6_0"		    ,"2x6_0"),
+	HouseData(6,2,"2x6_1"			,"2x6_1"),
+	HouseData(6,2,"2x6_2"		    ,"4x4_2"),
+	HouseData(6,2,"2x6_3"			,"4x4_3"),
+	HouseData(4,4,"4x4_0Alt"		,"4x4_0"),
+	HouseData(4,4,"4x4_0Baix"		,"4x4_0"),
+	HouseData(4,4,"4x4_0Centre"		,"4x4_0"),
+	HouseData(4,4,"4x4_1Alt"		,"4x4_1"),
+	HouseData(4,4,"4x4_1Baix"		,"4x4_1"),
+	HouseData(4,4,"4x4_1Centre"		,"4x4_1"),
+	HouseData(4,4,"4x4_2Alt"		,"4x4_2"),
+	HouseData(4,4,"4x4_2Baix"		,"4x4_2"),
+	HouseData(4,4,"4x4_2Centre"		,"4x4_2"),
+	HouseData(4,4,"4x4_3Alt"		,"4x4_3"),
+	HouseData(4,4,"4x4_3Baix"		,"4x4_3"),
+	HouseData(4,4,"4x4_3Centre"		,"4x4_3"),
+	HouseData(4,4,"4x4_4"			,"4x4_4")
 };
+
 
 House::House(int x, int y, int type) {
 	VBE_ASSERT(type < houseTypeCount && type >= 0, type << " is not a valid house type");

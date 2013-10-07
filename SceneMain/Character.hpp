@@ -21,7 +21,6 @@ class Character : public GameObject {
 		void draw() const;
 		virtual vec2f moveCharacter(float deltaTime) = 0;
 		vec2f getPosition() const { return position; }
-
 		float getSeeRadius();
 
 	protected:

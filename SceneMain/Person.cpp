@@ -1,6 +1,7 @@
 #include "Person.hpp"
 #include "Population.hpp"
 #include "Player.hpp"
+#include "Blood.hpp"
 
 #define NUANIMS_DATA 6
 
@@ -14,7 +15,7 @@ const char* s_person_dataFilenames[NUANIMS_DATA] = {
 };
 
 Person::Person() {
-	dissappearTime = 1.0f;
+	dissappearTime = 10.0f;
 	walkingTime = 0.0f;
 
 	startPanicTime = 10.0f;
@@ -36,8 +37,6 @@ Person::Person() {
 	//dieSound.setVolume(10000.0f);
 
 	velMult = Utils::randomFloat(0.7, 1.5);
-	if(Utils::randomBool(5))
-		velMult = 4;
 
 	ix = Utils::randomFloat(0.4, 0.6);
 	iy = Utils::randomFloat(0.4, 0.6);
@@ -84,22 +83,19 @@ static vec2i dirInc[] = {
 };
 
 vec2f Person::moveCharacter(float delta) {
-
-	//Player* p = &scene->players[0];
-
-//	for(int i = 0; i < (int)scene->players.size(); i++)
-//	{
-//		if(scene->players[i]->jailed) continue;
-//		playerActionTime[i] += delta;
-//		vec2f currPlayerPosition = scene->players[i]->getPosition();
-//		bool seesPlayerNow = canSee(currPlayerPosition);
-//		if(seesPlayerNow)
-//		{
-//			if(scene->players[i]->isDoingAction())
-//				playerActionTime[i] = 0;
-//			lastSawPlayer[i] = currPlayerPosition;
-//		}
-//	}
+	for(int i = 0; i < population->getPlayerCount(); i++)
+	{
+		if(population->getPlayer(i)->jailed) continue;
+		playerActionTime[i] += delta;
+		vec2f currPlayerPosition = population->getPlayer(i)->getPosition();
+		bool seesPlayerNow = canSee(currPlayerPosition);
+		if(seesPlayerNow)
+		{
+			if(population->getPlayer(i)->isDoingAction())
+				playerActionTime[i] = 0;
+			lastSawPlayer[i] = currPlayerPosition;
+		}
+	}
 
 	switch(state)
 	{
@@ -163,13 +159,10 @@ vec2f Person::moveCharacter(float delta) {
 
 			mark = MARK_BLUE_EXCLAMATION;
 
-//			for(int i = 0; i < (int)scene->players.size(); i++)
-//			{
-//				if(scene->players[i]->jailed) continue;
-
-//				if (knowsPlayers[i] && canSee(scene->players[i]->getPosition()))
-//					panicTime = startPanicTime;
-//			}
+			for(int i = 0; i < population->getPlayerCount(); i++) {
+				if (knowsPlayers[i] && canSee(population->getPlayer(i)->getPosition()))
+					panicTime = startPanicTime;
+			}
 
 			vec2i now = vec2i(position);
 			vec2i best = now;
@@ -265,6 +258,8 @@ void Person::doDeath() {
 void Person::onHit() {
 	//dieSound.play();
 	doDeath();
+	Blood* blood = new Blood(position);
+	blood->addTo(map);
 }
 /*
 

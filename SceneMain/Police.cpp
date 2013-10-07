@@ -7,7 +7,7 @@
 
 Police::Police() : Npc()
 {
-	vel = 2.0f;
+	vel = 4.8f;
 
 	int playerCount = population->getPlayerCount();
 

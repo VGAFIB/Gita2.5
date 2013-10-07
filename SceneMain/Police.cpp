@@ -296,6 +296,9 @@ vec2f Police::moveCharacter(float delta)
 			return lastDirSawPlayer[chasingPlayerNum];
 		}
 	}
+
+	VBE_ASSERT(false, "wtf");
+	return vec2f(0, 0);
 }
 
 static vec2i dirInc[] = {
@@ -359,24 +362,28 @@ void Police::lookAtRandomPlace()
 
 bool Police::onLeftCollision(int x, int j)
 {
+	(void)x; (void)j;
 	collided = true;
 	return state != STATE_CHASING_PLAYER;
 }
 
 bool Police::onRightCollision(int x, int j)
 {
+	(void)x; (void)j;
 	collided = true;
 	return state != STATE_CHASING_PLAYER;
 }
 
 bool Police::onUpCollision(int x, int j)
 {
+	(void)x; (void)j;
 	collided = true;
 	return state != STATE_CHASING_PLAYER;
 }
 
 bool Police::onDownCollision(int x, int j)
 {
+	(void)x; (void)j;
 	collided = true;
 	return state != STATE_CHASING_PLAYER;
 }

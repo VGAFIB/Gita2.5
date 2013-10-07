@@ -14,7 +14,7 @@ const char* s_person_dataFilenames[NUANIMS_DATA] = {
 };
 
 Person::Person() {
-	dissappearTime = 30.0f;
+	dissappearTime = 1.0f;
 	walkingTime = 0.0f;
 
 	startPanicTime = 10.0f;
@@ -196,7 +196,6 @@ vec2f Person::moveCharacter(float delta) {
 				vec2f dir  = togo - position;
 				return dir;
 			}
-			break;
 		}
 		case STATE_CONFUSED: {
 			mark = MARK_BLUE_QUESTION;
@@ -212,7 +211,7 @@ vec2f Person::moveCharacter(float delta) {
 
 
 			std::vector<Person*> v = population->getSeenCharacters<Person>(this);
-			for(int j = 0; j < v.size(); j++) {
+			for(int j = 0; j < (int)v.size(); j++) {
 				state = STATE_PANIC;
 				panicTime = startPanicTime;
 				panicSource = v[j]->getPosition();
@@ -239,21 +238,21 @@ vec2f Person::moveCharacter(float delta) {
 			}
 			else
 				return dirTowardsGoal();
-
-			break;
 		}
 		case STATE_DEAD: {
 			mark = MARK_NONE;
 			deathTimer -= delta;
-			if (deathTimer < 0) isAlive = false;
+			if (deathTimer < 0)
+				removeAndDelete();
 
 			return vec2f(0, 0);
-			break;
 		}
 		default:
 			return vec2f(0, 0);
 	}
 
+	VBE_ASSERT(false, "wtf");
+	return vec2f(0, 0);
 }
 
 void Person::doDeath() {

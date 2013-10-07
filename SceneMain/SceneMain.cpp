@@ -9,27 +9,37 @@
 
 SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	this->setName("SCENE");
+
 	//SCENE INIT
-	if (!loadResources()) {
-		VBE_LOG("Could not load resources for SceneMain" );
-		game->isRunning = false;
-		return;
-	}
+	if (!loadResources())
+		VBE_ASSERT(false, "Could not load resources for SceneMain" );
+
 	//Center mouse
-	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,game->getWindow());
+//	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,game->getWindow());
+
+	//Create camera
 	PerspectiveCamera* cam = new PerspectiveCamera();
 	cam->pos = vec3f(150,20,100);
 	cam->rot.x = 45.0f;
-	addObject(cam);
-	cam->addObject(new Map());
-	Population* p = new Population();
-	cam->addObject(p);
-	p->addObject(new Player());
+	cam->addTo(this);
+
+	//Create stuff
+	Map* map = new Map();
+	map->addTo(cam);
+
+	Population* pop = new Population();
+	pop->addTo(cam);
+
+	Player* pl = new Player();
+	pl->addTo(pop);
+
 	for(int i = 0; i < 1000; ++i) {
-		p->addObject(new Person());
+		Person* person = new Person();
+		person->addTo(pop);
 	}
-	for(int i = 0; i < 100; ++i) {
-//		p->addObject(new Police());
+	for(int i = 0; i < 0; ++i) {
+		Police* police = new Police();
+		police->addTo(pop);
 	}
 }
 
@@ -156,7 +166,7 @@ void SceneMain::update(float deltaTime) {
 	++fpsCount;
 	debugCounter += deltaTime;
 	if (debugCounter > 1) {
-		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << game->getObjectCount() );
+		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << getGame()->getObjectCount() );
 		debugCounter--;
 		fpsCount = 0;
 	}

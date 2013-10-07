@@ -4,7 +4,7 @@
 #include "Map.hpp"
 
 Population::Population() {
-	map = static_cast<Map*>(GameObject::getObjectByName("map"));
+	map = static_cast<Map*>(getGame()->getObjectByName("map"));
 	population = std::vector<std::vector<std::vector<Character*> > >
 			(map->getWidth(),std::vector<std::vector<Character*> >
 			 (map->getHeight(),std::vector<Character*>()));
@@ -22,7 +22,7 @@ void collide(Character* a, Character* b)
 
 	vec2f dir = pb-pa;
 
-	float dist = 0.5;
+	float dist = 0.25;
 	float len = glm::length(dir);
 	if(len < dist && len > 0.01)
 	{
@@ -37,15 +37,15 @@ void collide(Character* a, Character* b)
 
 void doCollisions2(std::vector<Character*>& a, std::vector<Character*>& b)
 {
-	for(int i = 0; i < a.size(); i++)
-		for(int j = 0; j < b.size(); j++)
+	for(unsigned int i = 0; i < a.size(); i++)
+		for(unsigned int j = 0; j < b.size(); j++)
 			collide(a[i], b[j]);
 }
 
 void doCollisions1(std::vector<Character*>& a)
 {
-	for(int i = 0; i < a.size(); i++)
-		for(int j = i+1; j < a.size(); j++)
+	for(unsigned int i = 0; i < a.size(); i++)
+		for(unsigned int j = i+1; j < a.size(); j++)
 			collide(a[i], a[j]);
 }
 
@@ -57,7 +57,10 @@ void Population::update(float deltaTime) {
 			population[x][y].clear();
 		}
 	}
-	for(std::list<GameObject*>::iterator it = children.begin(); it != children.end(); ++it) {
+
+	const std::list<GameObject*>& children = getChildren();
+
+	for(std::list<GameObject*>::const_iterator it = children.begin(); it != children.end(); ++it) {
 		Character* c = static_cast<Character*>(*it);
 		population[floor(c->getPosition().x)][floor(c->getPosition().y)].push_back(c);
 	}
@@ -99,5 +102,6 @@ int Population::getPlayerCount() {
 }
 
 Player* Population::getPlayer(int i) {
+	(void) i;
 	return getFirstObjectOfType<Player>();
 }

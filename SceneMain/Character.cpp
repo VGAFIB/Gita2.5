@@ -13,8 +13,8 @@ Character::Character() {
 	drawDead = false;
 	model.mesh = Meshes.get("charModel");
 	model.program = Programs.get("tex");
-	map = static_cast<Map*>(GameObject::getObjectByName("map"));
-	population = static_cast<Population*>(GameObject::getObjectByName("population"));
+	map = static_cast<Map*>(getGame()->getObjectByName("map"));
+	population = static_cast<Population*>(getGame()->getObjectByName("population"));
 }
 
 Character::~Character() {

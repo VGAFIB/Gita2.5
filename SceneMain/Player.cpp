@@ -23,7 +23,8 @@ Player::Player() : Character()
 
 	this->setName("player");
 	position = vec2f(map->getRandomStreet())+0.5f;
-	addObject(new CameraController());
+	CameraController* controller = new CameraController();
+	controller->addTo(this);
 }
 
 void Player::hitAction()

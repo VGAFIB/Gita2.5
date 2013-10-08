@@ -1,9 +1,9 @@
 #include "Npc.hpp"
 #include "Map.hpp"
 
-Npc::Npc() {
-    this->hasGoal = false;
-    this->mark = MARK_NONE;
+Npc::Npc(): mark(new CharacterMark()) {
+	this->hasGoal = false;
+	mark->addTo(this);
 }
 
 void Npc::setGoal(vec2f goal) {

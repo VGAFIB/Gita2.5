@@ -249,6 +249,9 @@ Map::~Map() {
 }
 
 bool Map::placeHouse(int type) {
+	if(Utils::randomFloat(0,1) > House::houseTypes[type].probability)
+		return placeHouse(Utils::randomInt(0,House::houseTypeCount-1));
+
 	int sizeX = House::houseTypes[type].width;
 	int sizeY = House::houseTypes[type].depth;
 

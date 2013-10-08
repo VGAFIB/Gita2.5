@@ -7,7 +7,9 @@
 
 Police::Police() : Npc()
 {
-	vel = 4.8f;
+	mark->color = vec4f(1,0,0,1);
+	mark->visible = false;
+	vel = 2.0f;
 
 	int playerCount = population->getPlayerCount();
 
@@ -172,7 +174,7 @@ vec2f Police::moveCharacter(float delta)
 	{
 		case STATE_PATROL_MOVING:
 		{
-			mark = MARK_NONE;
+			mark->visible = false;
 			vel = 1.5f;
 			if (!hasGoal) {
 				state = STATE_PATROL_WATCHING;
@@ -186,7 +188,7 @@ vec2f Police::moveCharacter(float delta)
 		}
 		case STATE_PATROL_WATCHING:
 		{
-			mark = MARK_NONE;
+			mark->visible = false;
 			vel = 1.5f;
 			watchingTime -= delta;
 			watchingTimeFacing -= delta;
@@ -206,7 +208,8 @@ vec2f Police::moveCharacter(float delta)
 		case STATE_ALERT:
 		{
 			vel = 4.5f;
-			mark = MARK_RED_QUESTION;
+			mark->visible = true;
+			mark->sign = CharacterMark::INTERROGATION;
 			alertTime -= delta;
 
 			if (!hasGoal)
@@ -220,7 +223,8 @@ vec2f Police::moveCharacter(float delta)
 		case STATE_CONFUSE:
 		{
 			vel = 2.0f;
-			mark = MARK_RED_QUESTION;
+			mark->visible = true;
+			mark->sign = CharacterMark::INTERROGATION;
 			alertTime -= delta;
 
 			if (!hasGoal)
@@ -233,8 +237,9 @@ vec2f Police::moveCharacter(float delta)
 		}
 		case STATE_CHASING_PLAYER:
 		{
-			vel = 3.0f;
-			mark = MARK_RED_EXCLAMATION;
+			vel = 4.0f;
+			mark->visible = true;
+			mark->sign = CharacterMark::EXCLAMATION;
 
 			lastPosSawTime[chasingPlayerNum] -= delta;
 
@@ -267,7 +272,8 @@ vec2f Police::moveCharacter(float delta)
 		case STATE_PLAYER_LOST:
 		{
 			vel = 2.75f;
-			mark = MARK_RED_QUESTION;
+			mark->visible = true;
+			mark->sign = CharacterMark::INTERROGATION;
 			lastPosSawTime[chasingPlayerNum] -= delta;
 
 			Player* p = population->getPlayer(chasingPlayerNum);
@@ -292,7 +298,6 @@ vec2f Police::moveCharacter(float delta)
 					lastAlertPos = lastPosSawPlayer[chasingPlayerNum];
 				}
 			}
-
 			return lastDirSawPlayer[chasingPlayerNum];
 		}
 	}

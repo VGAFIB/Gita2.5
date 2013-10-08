@@ -63,6 +63,9 @@ bool SceneMain::loadResources() {
 	p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/character.vert","data/shaders/character.frag")) return false;
 	Programs.add("character",p);
+	p = new ShaderProgram();
+	if(!p->makeProgram("data/shaders/mark.vert","data/shaders/mark.frag")) return false;
+	Programs.add("mark",p);
 	//textures
 	Texture* tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/2x6_0.png",true)) return false;
@@ -92,6 +95,9 @@ bool SceneMain::loadResources() {
 	if(!tex->loadFromFile("data/textures/construccio8x8.png",true)) return false;
 	Textures.add("construccio8x8",tex);
 	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/hospital8x8.png",true)) return false;
+	Textures.add("hospital8x8",tex);
+	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
 	Textures.add("person",tex);
@@ -105,7 +111,12 @@ bool SceneMain::loadResources() {
 	Textures.add("player",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/blood1.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
 	Textures.add("blood1",tex);
+	tex = new Texture(1);
+	if(!tex->loadFromFile("data/textures/exc.png")) return false;
+	tex->setFilter(GL_NEAREST,GL_NEAREST);
+	Textures.add("exc",tex);
 
 	//Create meshes
 	Meshes.add("2x6_0",new Mesh("data/models/2x6_0.obj"));
@@ -127,6 +138,7 @@ bool SceneMain::loadResources() {
 	Meshes.add("4x4_4",new Mesh("data/models/4x4_4.obj"));
 	Meshes.add("ajuntament8x8",new Mesh("data/models/ajuntament8x8.obj"));
 	Meshes.add("construccio8x8",new Mesh("data/models/construccio8x8.obj"));
+	Meshes.add("hospital8x8",new Mesh("data/models/hospital8x8.obj"));
 
 	//Character quad
 	{

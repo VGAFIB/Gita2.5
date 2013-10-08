@@ -19,7 +19,8 @@ SOURCES += \
     SceneMain/Player.cpp \
     SceneMain/PlayerInput.cpp \
     SceneMain/CameraController.cpp \
-    SceneMain/Blood.cpp
+    SceneMain/Blood.cpp \
+    SceneMain/CharacterMark.cpp
 
 HEADERS += \
 	SceneMain/SceneMain.hpp \
@@ -36,7 +37,8 @@ HEADERS += \
     SceneMain/Player.hpp \
     SceneMain/PlayerInput.hpp \
     SceneMain/CameraController.hpp \
-    SceneMain/Blood.hpp
+    SceneMain/Blood.hpp \
+    SceneMain/CharacterMark.hpp
 
 OTHER_FILES += \
     data/shaders/map.vert \
@@ -44,4 +46,6 @@ OTHER_FILES += \
     data/shaders/house.vert \
     data/shaders/house.frag \
     data/shaders/character.vert \
-    data/shaders/character.frag
+    data/shaders/character.frag \
+    data/shaders/mark.vert \
+    data/shaders/mark.frag

@@ -15,6 +15,7 @@ const char* s_person_dataFilenames[NUANIMS_DATA] = {
 };
 
 Person::Person() {
+	mark->color = vec4f(0,0,1,1);
 	dissappearTime = 10.0f;
 	walkingTime = 0.0f;
 
@@ -61,7 +62,7 @@ vec2f Person::moveCharacter(float delta) {
 	{
 		case STATE_WALKING:
 		{
-			mark = MARK_NONE;
+			mark->visible = false;
 			vel = 2.0*velMult;
 			if(!hasGoal)
 				setGoal(vec2f(map->getRandomStreet()));
@@ -112,8 +113,8 @@ vec2f Person::moveCharacter(float delta) {
 				state = STATE_WALKING;
 				hasGoal = false;
 			}
-
-			mark = MARK_BLUE_EXCLAMATION;
+			mark->visible = true;
+			mark->sign = CharacterMark::EXCLAMATION;
 
 			for(int i = 0; i < population->getPlayerCount(); i++) {
 				if (knowsPlayers[i] && canSee(population->getPlayer(i)->getPosition()))
@@ -123,7 +124,8 @@ vec2f Person::moveCharacter(float delta) {
 			return(vec2f(position - panicSource));
 		}
 		case STATE_CONFUSED: {
-			mark = MARK_BLUE_QUESTION;
+			mark->visible = true;
+			mark->sign = CharacterMark::INTERROGATION;
 			vel = 1.0*velMult;
 
 			confusedTime -= delta;
@@ -165,11 +167,10 @@ vec2f Person::moveCharacter(float delta) {
 				return dirTowardsGoal();
 		}
 		case STATE_DEAD: {
-			mark = MARK_NONE;
+			mark->visible = false;
 			deathTimer -= delta;
 			if (deathTimer < 0)
 				removeAndDelete();
-
 			return vec2f(0, 0);
 		}
 		default:

@@ -1,23 +1,14 @@
 #ifndef NPC_HPP
 #define NPC_HPP
-
 #include "Character.hpp"
+#include "CharacterMark.hpp"
 
 class Npc : public Character {
 	public:
-
-		enum CharacterMark {
-			MARK_NONE,
-			MARK_RED_EXCLAMATION,
-			MARK_BLUE_EXCLAMATION,
-			MARK_RED_QUESTION,
-			MARK_BLUE_QUESTION
-		};
-
 		Npc();
 
 	protected:
-		CharacterMark mark;
+		CharacterMark* mark;
 
 		void setGoal(vec2f goal);
 		vec2f dirTowardsGoal();

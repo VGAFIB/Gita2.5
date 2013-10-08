@@ -55,14 +55,14 @@ SceneMain::~SceneMain() {
 bool SceneMain::loadResources() {
 	//shaders
 	ShaderProgram* p = new ShaderProgram();
-	if(!p->makeProgram("data/shaders/sample.vert","data/shaders/sample.frag")) return false;
-	Programs.add("sample",p);
+	if(!p->makeProgram("data/shaders/house.vert","data/shaders/house.frag")) return false;
+	Programs.add("house",p);
 	p = new ShaderProgram();
-	if(!p->makeProgram("data/shaders/sample2.vert","data/shaders/sample2.frag")) return false;
-	Programs.add("sample2",p);
+	if(!p->makeProgram("data/shaders/map.vert","data/shaders/map.frag")) return false;
+	Programs.add("map",p);
 	p = new ShaderProgram();
-	if(!p->makeProgram("data/shaders/tex.vert","data/shaders/tex.frag")) return false;
-	Programs.add("tex",p);
+	if(!p->makeProgram("data/shaders/character.vert","data/shaders/character.frag")) return false;
+	Programs.add("character",p);
 	//textures
 	Texture* tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/2x6_0.png",true)) return false;

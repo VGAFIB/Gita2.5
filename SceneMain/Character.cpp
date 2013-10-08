@@ -12,7 +12,7 @@ Character::Character() {
 	action = "Idle";
 	drawDead = false;
 	model.mesh = Meshes.get("charModel");
-	model.program = Programs.get("tex");
+	model.program = Programs.get("character");
 	map = static_cast<Map*>(getGame()->getObjectByName("map"));
 	population = static_cast<Population*>(getGame()->getObjectByName("population"));
 }

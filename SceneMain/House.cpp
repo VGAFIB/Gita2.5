@@ -30,7 +30,7 @@ House::House(int x, int y, int type) {
 	transform = glm::translate(mat4f(1.0),vec3f(x, 0, y));
 	house.mesh = Meshes.get(houseTypes[type].model);
 	texName = houseTypes[type].texture;
-	house.program = Programs.get("sample");
+	house.program = Programs.get("house");
 }
 
 House::~House() {

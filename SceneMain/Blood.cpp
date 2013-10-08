@@ -2,8 +2,7 @@
 
 Blood::Blood(vec2f pos): pos(pos), life(0.0f) {
 	model.mesh = Meshes.get("bloodModel");
-	model.program = Programs.get("tex");
-
+	model.program = Programs.get("character");
 }
 
 Blood::~Blood() {

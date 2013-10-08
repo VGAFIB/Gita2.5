@@ -39,9 +39,9 @@ HEADERS += \
     SceneMain/Blood.hpp
 
 OTHER_FILES += \
-	data/shaders/sample.vert \
-	data/shaders/sample.frag \
-	data/shaders/sample2.vert \
-	data/shaders/sample2.frag \
-    data/shaders/tex.vert \
-    data/shaders/tex.frag
+    data/shaders/map.vert \
+    data/shaders/map.frag \
+    data/shaders/house.vert \
+    data/shaders/house.frag \
+    data/shaders/character.vert \
+    data/shaders/character.frag

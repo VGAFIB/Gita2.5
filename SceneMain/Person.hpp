@@ -6,14 +6,12 @@
 class Person : public Npc {
 	public:
 		Person();
-
 		enum State {
 			STATE_WALKING,
 			STATE_PANIC,
 			STATE_DEAD,
 			STATE_CONFUSED
 		};
-
 		virtual vec2f moveCharacter(float deltaTime);
 		int getState() { return state; }
 		void doDeath();

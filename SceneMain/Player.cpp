@@ -35,8 +35,7 @@ void Player::hitAction()
 vec2f Player::moveCharacter(float delta) {
 
 	drawDead = jailed;
-    if(jailed)
-    {
+	if(jailed) {
         jailedTime += delta;
         return vec2f(0, 0);
     }
@@ -49,9 +48,9 @@ vec2f Player::moveCharacter(float delta) {
         hitAction();
 		std::vector<Person*> persons = population->getNearbyCharacters<Person>(position, 1);
         for (std::vector<Person*>::iterator it = persons.begin(); it != persons.end(); ++it) {
-            if (!(*it)->is_alive()) continue;
+			if ((*it)->getState() == Person::STATE_DEAD) continue;
 
-            (*it)->onHit();
+			(*it)->doDeath();
             int n_moneys = Utils::randomInt(1, 3);
 			//for (int i = 0; i < n_moneys; ++i) scene->spawnNewMoney((*it)->getPosition());
         }

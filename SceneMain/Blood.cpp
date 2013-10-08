@@ -10,12 +10,10 @@ Blood::~Blood() {
 
 }
 
-void Blood::update(float deltaTime)
-{
+void Blood::update(float deltaTime) {
 	life += deltaTime;
 	if(life > 10.0f)
 		removeAndDelete();
-
 	transform = glm::translate(mat4f(1.0f), vec3f(pos.x, 0.005, pos.y));
 }
 

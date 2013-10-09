@@ -19,16 +19,13 @@ class Person : public Npc {
 	private:
 		std::vector<bool> knowsPlayers;
 		std::vector<vec2f> lastSawPlayer;
-		std::vector<float> playerActionTime;
 		float velMult;
 		float dissappearTime;
 		float deathTimer;
 		float panicTime, startPanicTime;
 		vec2f panicSource;
-		float walkingTime;
 		float confuseCooldown;
 		float confusedTime;
-		float confusedTimeFacing;
 		State state;
 };
 

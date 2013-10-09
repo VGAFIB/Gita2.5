@@ -5,8 +5,7 @@
 #include "Map.hpp"
 #include "Population.hpp"
 
-Police::Police() : Npc()
-{
+Police::Police() : Npc() {
 	mark->color = vec4f(1,0,0,1);
 	mark->visible = false;
 	vel = 2.0f;
@@ -22,7 +21,7 @@ Police::Police() : Npc()
 
 	anim.setAnimData(Animations.get("poli"));
 
-	texName = "police";
+	texName = "policeTex";
 
 	watchingTime = 0;
 	watchingTimeFacing = 0;
@@ -33,9 +32,6 @@ Police::Police() : Npc()
 vec2f Police::moveCharacter(float delta)
 {
 	collided = false;
-
-	//TODO Multiplayer logic
-	//	Player* p = population->getPlayer(0];
 
 	std::vector<Character*> personList = population->getSeenCharacters<Character>(this);
 
@@ -354,41 +350,11 @@ vec2f Police::getNewGoal(vec2f pos)
 void Police::lookAtRandomPlace()
 {
 	vec2i v = vec2i(position);
-
 	int i = 0;
 	while(i < 4) {
-		faceDir = (FaceDir)Utils::randomInt(FACE_UP, FACE_RIGHT);
+		faceDir = (FaceDir)Utils::randomInt(0, FACE_SIZE-1);
 		vec2i v2 = v + dirInc[faceDir];
 		if(map->validTile(v2) && !map->tile(v2).isSolid()) break;
 		i++;
 	}
-}
-
-
-bool Police::onLeftCollision(int x, int j)
-{
-	(void)x; (void)j;
-	collided = true;
-	return state != STATE_CHASING_PLAYER;
-}
-
-bool Police::onRightCollision(int x, int j)
-{
-	(void)x; (void)j;
-	collided = true;
-	return state != STATE_CHASING_PLAYER;
-}
-
-bool Police::onUpCollision(int x, int j)
-{
-	(void)x; (void)j;
-	collided = true;
-	return state != STATE_CHASING_PLAYER;
-}
-
-bool Police::onDownCollision(int x, int j)
-{
-	(void)x; (void)j;
-	collided = true;
-	return state != STATE_CHASING_PLAYER;
 }

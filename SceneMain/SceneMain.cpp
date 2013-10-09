@@ -56,89 +56,89 @@ bool SceneMain::loadResources() {
 	//shaders
 	ShaderProgram* p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/house.vert","data/shaders/house.frag")) return false;
-	Programs.add("house",p);
+	Programs.add("houseProgram",p);
 	p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/map.vert","data/shaders/map.frag")) return false;
-	Programs.add("map",p);
+	Programs.add("mapProgram",p);
 	p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/character.vert","data/shaders/character.frag")) return false;
-	Programs.add("character",p);
+	Programs.add("characterProgram",p);
 	p = new ShaderProgram();
 	if(!p->makeProgram("data/shaders/mark.vert","data/shaders/mark.frag")) return false;
-	Programs.add("mark",p);
+	Programs.add("markProgram",p);
 	//textures
 	Texture* tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/2x6_0.png",true)) return false;
-	Textures.add("2x6_0",tex);
+	Textures.add("2x6_0Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/2x6_1.png",true)) return false;
-	Textures.add("2x6_1",tex);
+	Textures.add("2x6_1Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_0.png",true)) return false;
-	Textures.add("4x4_0",tex);
+	Textures.add("4x4_0Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_1.png",true)) return false;
-	Textures.add("4x4_1",tex);
+	Textures.add("4x4_1Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_2.png",true)) return false;
-	Textures.add("4x4_2",tex);
+	Textures.add("4x4_2Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_3.png",true)) return false;
-	Textures.add("4x4_3",tex);
+	Textures.add("4x4_3Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/4x4_4.png",true)) return false;
-	Textures.add("4x4_4",tex);
+	Textures.add("4x4_4Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/ajuntament8x8.png",true)) return false;
-	Textures.add("ajuntament8x8",tex);
+	Textures.add("ajuntament8x8Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/construccio8x8.png",true)) return false;
-	Textures.add("construccio8x8",tex);
+	Textures.add("construccio8x8Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/hospital8x8.png",true)) return false;
-	Textures.add("hospital8x8",tex);
+	Textures.add("hospital8x8Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/person_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	Textures.add("person",tex);
+	Textures.add("personTex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/police_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	Textures.add("police",tex);
+	Textures.add("policeTex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/player_sheet.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	Textures.add("player",tex);
+	Textures.add("playerTex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/blood1.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	Textures.add("blood1",tex);
+	Textures.add("blood1Tex",tex);
 	tex = new Texture(1);
 	if(!tex->loadFromFile("data/textures/exc.png")) return false;
 	tex->setFilter(GL_NEAREST,GL_NEAREST);
-	Textures.add("exc",tex);
+	Textures.add("excTex",tex);
 
 	//Create meshes
-	Meshes.add("2x6_0",new Mesh("data/models/2x6_0.obj"));
-	Meshes.add("2x6_1",new Mesh("data/models/2x6_1.obj"));
-	Meshes.add("2x6_2",new Mesh("data/models/2x6_2.obj"));
-	Meshes.add("2x6_3",new Mesh("data/models/2x6_3.obj"));
-	Meshes.add("4x4_0Alt",new Mesh("data/models/4x4_0Alt.obj"));
-	Meshes.add("4x4_0Baix",new Mesh("data/models/4x4_0Baix.obj"));
-	Meshes.add("4x4_0Centre",new Mesh("data/models/4x4_0Centre.obj"));
-	Meshes.add("4x4_1Alt",new Mesh("data/models/4x4_1Alt.obj"));
-	Meshes.add("4x4_1Baix",new Mesh("data/models/4x4_1Baix.obj"));
-	Meshes.add("4x4_1Centre",new Mesh("data/models/4x4_1Centre.obj"));
-	Meshes.add("4x4_2Alt",new Mesh("data/models/4x4_2Alt.obj"));
-	Meshes.add("4x4_2Baix",new Mesh("data/models/4x4_2Baix.obj"));
-	Meshes.add("4x4_2Centre",new Mesh("data/models/4x4_2Centre.obj"));
-	Meshes.add("4x4_3Alt",new Mesh("data/models/4x4_3Alt.obj"));
-	Meshes.add("4x4_3Baix",new Mesh("data/models/4x4_3Baix.obj"));
-	Meshes.add("4x4_3Centre",new Mesh("data/models/4x4_3Centre.obj"));
-	Meshes.add("4x4_4",new Mesh("data/models/4x4_4.obj"));
-	Meshes.add("ajuntament8x8",new Mesh("data/models/ajuntament8x8.obj"));
-	Meshes.add("construccio8x8",new Mesh("data/models/construccio8x8.obj"));
-	Meshes.add("hospital8x8",new Mesh("data/models/hospital8x8.obj"));
+	Meshes.add("2x6_0Mesh",new Mesh("data/models/2x6_0.obj"));
+	Meshes.add("2x6_1Mesh",new Mesh("data/models/2x6_1.obj"));
+	Meshes.add("2x6_2Mesh",new Mesh("data/models/2x6_2.obj"));
+	Meshes.add("2x6_3Mesh",new Mesh("data/models/2x6_3.obj"));
+	Meshes.add("4x4_0AltMesh",new Mesh("data/models/4x4_0Alt.obj"));
+	Meshes.add("4x4_0BaixMesh",new Mesh("data/models/4x4_0Baix.obj"));
+	Meshes.add("4x4_0CentreMesh",new Mesh("data/models/4x4_0Centre.obj"));
+	Meshes.add("4x4_1AltMesh",new Mesh("data/models/4x4_1Alt.obj"));
+	Meshes.add("4x4_1BaixMesh",new Mesh("data/models/4x4_1Baix.obj"));
+	Meshes.add("4x4_1CentreMesh",new Mesh("data/models/4x4_1Centre.obj"));
+	Meshes.add("4x4_2AltMesh",new Mesh("data/models/4x4_2Alt.obj"));
+	Meshes.add("4x4_2BaixMesh",new Mesh("data/models/4x4_2Baix.obj"));
+	Meshes.add("4x4_2CentreMesh",new Mesh("data/models/4x4_2Centre.obj"));
+	Meshes.add("4x4_3AltMesh",new Mesh("data/models/4x4_3Alt.obj"));
+	Meshes.add("4x4_3BaixMesh",new Mesh("data/models/4x4_3Baix.obj"));
+	Meshes.add("4x4_3CentreMesh",new Mesh("data/models/4x4_3Centre.obj"));
+	Meshes.add("4x4_4Mesh",new Mesh("data/models/4x4_4.obj"));
+	Meshes.add("ajuntament8x8Mesh",new Mesh("data/models/ajuntament8x8.obj"));
+	Meshes.add("construccio8x8Mesh",new Mesh("data/models/construccio8x8.obj"));
+	Meshes.add("hospital8x8Mesh",new Mesh("data/models/hospital8x8.obj"));
 
 	//Character quad
 	{
@@ -165,7 +165,7 @@ bool SceneMain::loadResources() {
 		data.push_back(Vertex(vec3f(-0.5, 1.0, 0), vec2f(0.0, 0.0)));
 
 		charModel->setVertexData(&data[0],data.size());
-		Meshes.add("charModel",charModel);
+		Meshes.add("charMesh",charModel);
 	}
 
 	//Blood quad
@@ -193,7 +193,7 @@ bool SceneMain::loadResources() {
 		data.push_back(Vertex(vec3f(-1, 0,  1), vec2f(0.0, 0.0)));
 
 		bloodModel->setVertexData(&data[0],data.size());
-		Meshes.add("bloodModel",bloodModel);
+		Meshes.add("bloodMesh",bloodModel);
 	}
 
 	Animations.add("takena", new Animation("data/anim/takena.anim"));
@@ -212,7 +212,7 @@ void SceneMain::update(float deltaTime) {
 	++fpsCount;
 	debugCounter += deltaTime;
 	if (debugCounter > 1) {
-		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << getGame()->getObjectCount() );
+		VBE_LOG("FPS: " << fpsCount << ". Amount of GameObjects: " << getGame()->getObjectCount());
 		debugCounter--;
 		fpsCount = 0;
 	}

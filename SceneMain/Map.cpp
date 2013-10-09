@@ -241,8 +241,8 @@ Map::Map() {
 
 	mesh->setVertexData(&data[0],data.size());
 	model.mesh = mesh;
-	Meshes.add("map",mesh);
-	model.program = Programs.get("map");
+	Meshes.add("mapMesh",mesh);
+	model.program = Programs.get("mapProgram");
 }
 
 Map::~Map() {

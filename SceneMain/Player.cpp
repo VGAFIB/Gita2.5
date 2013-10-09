@@ -13,13 +13,10 @@ Player::Player() : Character()
 
     actionDelay = 0;
 
-    myMoney = 0;
-    myKills = 0;
-
     jailed = false;
 	vel = 5;
 	anim.setAnimData(Animations.get("takena"));
-	texName = "player";
+	texName = "playerTex";
 
 	this->setName("player");
 	position = vec2f(map->getRandomStreet())+0.5f;
@@ -27,9 +24,8 @@ Player::Player() : Character()
 	controller->addTo(this);
 }
 
-void Player::hitAction()
-{
-    actionDelay = 0.18f;
+void Player::hitAction() {
+	actionDelay = 0.18f;
 }
 
 vec2f Player::moveCharacter(float delta) {
@@ -42,55 +38,26 @@ vec2f Player::moveCharacter(float delta) {
 
 	playerInput.update();
 
-
 	if (playerInput.getKeyDown(PlayerInput::PLAYER_ACTION)) {
-
         hitAction();
 		std::vector<Person*> persons = population->getNearbyCharacters<Person>(position, 1);
         for (std::vector<Person*>::iterator it = persons.begin(); it != persons.end(); ++it) {
 			if ((*it)->getState() == Person::STATE_DEAD) continue;
-
 			(*it)->doDeath();
-            int n_moneys = Utils::randomInt(1, 3);
-			//for (int i = 0; i < n_moneys; ++i) scene->spawnNewMoney((*it)->getPosition());
         }
-    }
+	}
 
-
-//    anim->Update(delta);
-
-    /*
-    for (std::list<Item>::iterator it = scene->itemList.begin(); it != scene->itemList.end(); ++it) {
-        if (it->isTakeable()) {
-
-            sf::FloatRect moneyBox = this->getBoundBox();
-            moneyBox.left -= moneyBox.width/6;
-            moneyBox.width *= 3;
-            moneyBox.top -= moneyBox.height/6;
-            moneyBox.height *= 3;
-
-            if (Utils::rectCollision(it->getBoundBox(), moneyBox)) {
-                it->takeAction();
-                myMoney += it->getValue();
-            }
-        }
-    }*/
-
-    if (actionDelay <= 0)
-    {
+	if (actionDelay <= 0) {
         vec2f dir (0, 0);
-
-		if (playerInput.getKeyState(PlayerInput::PLAYER_UP) && !playerInput.getKeyState(PlayerInput::PLAYER_DOWN))
+		if (Input::isKeyDown(sf::Keyboard::W) && !Input::isKeyDown(sf::Keyboard::S))
             dir.y = -1;
-		if (playerInput.getKeyState(PlayerInput::PLAYER_DOWN) && !playerInput.getKeyState(PlayerInput::PLAYER_UP))
+		if (Input::isKeyDown(sf::Keyboard::S) && !Input::isKeyDown(sf::Keyboard::W))
             dir.y = 1;
-		if (playerInput.getKeyState(PlayerInput::PLAYER_LEFT) && !playerInput.getKeyState(PlayerInput::PLAYER_RIGHT))
+		if (Input::isKeyDown(sf::Keyboard::A) && !Input::isKeyDown(sf::Keyboard::D))
             dir.x = -1;
-		if (playerInput.getKeyState(PlayerInput::PLAYER_RIGHT) && !playerInput.getKeyState(PlayerInput::PLAYER_LEFT))
-            dir.x = 1;
-
+		if (Input::isKeyDown(sf::Keyboard::D) && !Input::isKeyDown(sf::Keyboard::A))
+			dir.x = 1;
 		action = "Idle";
-
 		return dir*vel*delta;
     }
     else

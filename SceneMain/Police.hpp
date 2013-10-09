@@ -14,11 +14,6 @@ class Police : public Npc {
 		vec2f getNewGoal(vec2f position);
 		void lookAtRandomPlace();
 
-		bool onLeftCollision(int x, int j);
-		bool onRightCollision(int x, int j);
-		bool onUpCollision(int x, int j);
-		bool onDownCollision(int x, int j);
-
 		enum State  {
 			STATE_PATROL_MOVING,
 			STATE_PATROL_WATCHING,

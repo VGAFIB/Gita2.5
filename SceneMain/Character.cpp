@@ -8,11 +8,11 @@ Character::Character() {
 	faceDir = FACE_DOWN;
 
 	deadrot = Utils::randomFloat(0, 360);
-	texName = "person";
+	texName = "personTex";
 	action = "Idle";
 	drawDead = false;
-	model.mesh = Meshes.get("charModel");
-	model.program = Programs.get("character");
+	model.mesh = Meshes.get("charMesh");
+	model.program = Programs.get("characterProgram");
 	map = static_cast<Map*>(getGame()->getObjectByName("map"));
 	population = static_cast<Population*>(getGame()->getObjectByName("population"));
 }

@@ -7,20 +7,11 @@ Npc::Npc(): mark(new CharacterMark()) {
 }
 
 void Npc::setGoal(vec2f goal) {
-    this->goal = goal;
+	if(map->solid(position.x,position.y) || map->solid(goal.x,goal.y)) return;
 
+	this->goal = goal;
 	vec2i from = vec2i(position);
-    vec2i to = vec2i(goal);
-
-	if(map->solid(from.x, from.y)) {
-        //cout<<"Pathfinding: Current pos is solid. "<<endl;
-        return;
-    }
-	if(map->solid(to.x, to.y)) {
-        //cout<<"Pathfinding: Goal is solid."<<endl;
-        return;
-    }
-
+	vec2i to = vec2i(goal);
     //Calculate the path!
 	std::vector<std::vector<int> > vis(map->getWidth(), std::vector<int>(map->getHeight(), -1));
 
@@ -31,14 +22,12 @@ void Npc::setGoal(vec2f goal) {
 
 	std::queue<vec2i> q;
     q.push(to);
-    while(!q.empty() && !end)
-    {
+	while(!q.empty() && !end) {
         int x = q.front().x;
         int y = q.front().y;
         q.pop();
 
-        for(int i = 0; i < 4; i++)
-        {
+		for(int i = 0; i < 4; i++) {
             int x2 = x + dx[i];
             int y2 = y + dy[i];
 			if(x2 < 0 || x2 >= map->getWidth()) continue;
@@ -61,8 +50,7 @@ void Npc::setGoal(vec2f goal) {
     hasGoal = true;
 	std::vector<vec2i> v;
 
-    while(from != to)
-    {
+	while(from != to) {
         v.push_back(from);
         vec2i from2 = from;
         from.x -= dx[vis[from2.x][from2.y]];
@@ -74,9 +62,7 @@ void Npc::setGoal(vec2f goal) {
 
     vec2i ant(-1, -1);
 	vec2f antf(0.5, 0.5);
-	for(unsigned int i = 0; i < v.size(); i++)
-    {
-
+	for(unsigned int i = 0; i < v.size(); i++) {
         vec2f p (v[i].x + 0.5, v[i].y + 0.5);
         if(v[i].x == ant.x)
             p.x = antf.x;
@@ -89,19 +75,14 @@ void Npc::setGoal(vec2f goal) {
     path.push(goal);
 }
 
-vec2f Npc::dirTowardsGoal()
-{
+vec2f Npc::dirTowardsGoal() {
     if(!hasGoal) return vec2f(0, 0);
-
 	while(!path.empty() && glm::distance(path.front(), position) < 0.2)
         path.pop();
-
-    if(path.empty())
-    {
+	if(path.empty()) {
         hasGoal = false;
         return vec2f(0, 0);
-    }
-
+	}
     vec2f to = path.front();
 	return to-position;
 }

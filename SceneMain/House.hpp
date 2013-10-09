@@ -7,10 +7,10 @@ class House : public GameObject {
 	public:
 		struct HouseData {
 				HouseData(unsigned int w, unsigned int d, std::string m, std::string t, float probability)
-					: width(w), depth(d), model(m), texture(t), probability(probability) {}
+					: width(w), depth(d), mesh(m), texture(t), probability(probability) {}
 				unsigned int width;
 				unsigned int depth;
-				std::string model;
+				std::string mesh;
 				std::string texture;
 				float probability;
 		};

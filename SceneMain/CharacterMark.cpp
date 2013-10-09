@@ -1,8 +1,8 @@
 #include "CharacterMark.hpp"
 
 CharacterMark::CharacterMark(vec4f color) : color(color), sign(INTERROGATION), visible(true){
-	model.mesh = Meshes.get("charModel");
-	model.program = Programs.get("mark");
+	model.mesh = Meshes.get("charMesh");
+	model.program = Programs.get("markProgram");
 }
 
 CharacterMark::~CharacterMark() {
@@ -17,7 +17,7 @@ void CharacterMark::draw() const {
 	if(!visible) return;
 	model.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
 	model.program->uniform("color")->set(color);
-	model.program->uniform("tex")->set(Textures.get("exc"));
+	model.program->uniform("tex")->set(Textures.get("excTex"));
 	switch(sign) {
 		case INTERROGATION:
 			model.program->uniform("texBounds")->set(vec4f(0,0,1,0.5));//upper half

@@ -1,8 +1,8 @@
 #include "Blood.hpp"
 
 Blood::Blood(vec2f pos): pos(pos), life(0.0f) {
-	model.mesh = Meshes.get("bloodModel");
-	model.program = Programs.get("character");
+	model.mesh = Meshes.get("bloodMesh");
+	model.program = Programs.get("characterProgram");
 }
 
 Blood::~Blood() {
@@ -23,7 +23,7 @@ void Blood::draw() const {
 	mat4f t = fullTransform;
 	t = glm::scale(t, vec3f(glm::min(life, 1.0f)));
 	model.program->uniform("modelViewProjectionMatrix")->set(t);
-	model.program->uniform("tex")->set(Textures.get("blood1"));
+	model.program->uniform("tex")->set(Textures.get("blood1Tex"));
 	model.draw();
 	glDepthMask(GL_TRUE);
 }

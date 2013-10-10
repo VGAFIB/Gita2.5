@@ -1,6 +1,8 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
-
+#define PERSON_DISSAPEAR_TIME 10.0f
+#define PERSON_CONFUSED_TIME
+#define PERSON_PANIC_TIME 10.0f
 #include "Npc.hpp"
 
 class Person : public Npc {
@@ -20,12 +22,10 @@ class Person : public Npc {
 		std::vector<bool> knowsPlayers;
 		std::vector<vec2f> lastSawPlayer;
 		float velMult;
-		float dissappearTime;
 		float deathTimer;
-		float panicTime, startPanicTime;
+		float panicTimer;
 		vec2f panicSource;
-		float confuseCooldown;
-		float confusedTime;
+		float confusedTimer;
 		State state;
 };
 

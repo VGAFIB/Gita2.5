@@ -16,12 +16,9 @@ const char* s_person_dataFilenames[NUANIMS_DATA] = {
 
 Person::Person() {
 	mark->color = vec4f(0,0,1,1);
-	dissappearTime = 10.0f;
-	startPanicTime = 10.0f;
 	state = STATE_WALKING;
 	knowsPlayers = std::vector<bool>(population->getPlayerCount(), false);
 	lastSawPlayer = std::vector<vec2f>(population->getPlayerCount());
-	confuseCooldown = 0.0f;
 	anim.setAnimData(Animations.get(s_person_dataFilenames[Utils::randomInt(0, NUANIMS_DATA-1)]));
 	velMult = Utils::randomFloat(0.7, 1.5);
 	position = vec2f(map->getRandomStreet())+0.5f;
@@ -35,7 +32,6 @@ static vec2i dirInc[] = {
 };
 
 vec2f Person::moveCharacter(float delta) {
-
 	switch(state) {
 		case STATE_WALKING: {
 			mark->visible = false;
@@ -47,7 +43,7 @@ vec2f Person::moveCharacter(float delta) {
 				if ((knowsPlayers[i] || population->getPlayer(i)->isDoingAction())
 					&& canSee(population->getPlayer(i)->getPosition())) {
 					state = STATE_PANIC;
-					panicTime = startPanicTime;
+					panicTimer = PERSON_PANIC_TIME;
 					panicSource = population->getPlayer(i)->getPosition();
 				}
 			}
@@ -57,14 +53,14 @@ vec2f Person::moveCharacter(float delta) {
 			mark->visible = true;
 			mark->sign = CharacterMark::EXCLAMATION;
 			vel = 3.5*velMult;
-			if (panicTime > 0) panicTime -= delta;
+			if (panicTimer > 0) panicTimer -= delta;
 			else {
 				state = STATE_WALKING;
 				hasGoal = false;
 			}
 			for(int i = 0; i < population->getPlayerCount(); i++) {
 				if (knowsPlayers[i] && canSee(population->getPlayer(i)->getPosition()))
-					panicTime = startPanicTime;
+					panicTimer = PERSON_PANIC_TIME;
 			}
 
 			return(vec2f(position - panicSource));
@@ -73,8 +69,8 @@ vec2f Person::moveCharacter(float delta) {
 			mark->visible = true;
 			mark->sign = CharacterMark::INTERROGATION;
 			vel = 1.0*velMult;
-			confusedTime -= delta;
-			if (confusedTime < 0) {
+			confusedTimer -= delta;
+			if (confusedTimer < 0) {
 				setGoal(vec2f(map->getRandomStreet())+0.5f);
 				state = STATE_WALKING;
 			}
@@ -97,7 +93,7 @@ vec2f Person::moveCharacter(float delta) {
 }
 
 void Person::doDeath() {
-	deathTimer = dissappearTime;
+	deathTimer = PERSON_DISSAPEAR_TIME;
 	state = STATE_DEAD;
 	drawDead = true;
 	Blood* blood = new Blood(position);

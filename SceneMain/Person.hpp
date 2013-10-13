@@ -1,7 +1,7 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
 #define PERSON_DISSAPEAR_TIME 10.0f
-#define PERSON_CONFUSED_TIME
+#define PERSON_CONFUSED_TIME 10.0f
 #define PERSON_PANIC_TIME 10.0f
 #include "Npc.hpp"
 

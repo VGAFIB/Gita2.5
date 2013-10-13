@@ -3,15 +3,16 @@
 
 #include "Animation.hpp"
 
-enum FaceDir {
-	FACE_UP = 0, FACE_DOWN, FACE_LEFT, FACE_RIGHT, FACE_SIZE
-};
+
 
 class Map;
 class Population;
 
 class Character : public GameObject {
 	public:
+		enum FaceDir {
+			FACE_UP = 0, FACE_DOWN, FACE_LEFT, FACE_RIGHT, FACE_SIZE
+		};
 		Character();
 		virtual ~Character();
 

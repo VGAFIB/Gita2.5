@@ -30,6 +30,7 @@ Police::Police() : Npc() {
 }
 
 vec2f Police::moveCharacter(float delta) {
+	//the police class implementation shouts "KILL ME PLS". 30 cops halve FPS. Bad code is bad.
 	std::vector<Character*> personList = population->getSeenCharacters<Character>(this);
 
 	for (std::vector<Character*>::iterator it = personList.begin(); it != personList.end(); it++)

@@ -14,6 +14,7 @@ struct Street {
 		int send() { return pos+sidewalk+roadway; }
 		bool peatonal() { return roadway == 0; }
 
+		static std::vector<Street> generateStreets(int size);
 		static const int types[][2];
 };
 
@@ -24,7 +25,7 @@ const int Street::types[][2] = {
 	{2, 4},
 };
 
-std::vector<Street> generateStreets(int size) {
+std::vector<Street> Street::generateStreets(int size) {
 	int margin = 10;
 	//generate
 	std::vector<Street> v;
@@ -49,7 +50,11 @@ std::vector<Street> generateStreets(int size) {
 	return v;
 }
 
-typedef vec2b Apple;
+struct Apple {
+		Apple() : x(false), y(false) {};
+		bool x;
+		bool y;
+};
 
 Map::Map() {
 	setName("map");
@@ -65,8 +70,8 @@ Map::Map() {
 		for(int x = 0; x < sizex; x++)
 			tile(x, y).type = Map::Garden;
 
-	std::vector<Street> horitzStreets = generateStreets(sizey);
-	std::vector<Street> verticStreets = generateStreets(sizex);
+	std::vector<Street> horitzStreets = Street::generateStreets(sizey);
+	std::vector<Street> verticStreets = Street::generateStreets(sizex);
 	std::vector<std::vector<Apple> > apples (verticStreets.size(), std::vector<Apple>(horitzStreets.size()));
 
 	//randomly connect apples

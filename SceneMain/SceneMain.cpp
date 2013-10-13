@@ -14,9 +14,6 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	if (!loadResources())
 		VBE_ASSERT(false, "Could not load resources for SceneMain" );
 
-	//Center mouse
-//	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,game->getWindow());
-
 	//GL stuff..: root(NULL)
 	glClearColor(0.1,0.2,0.05,1);
 	glEnable(GL_DEPTH_TEST);

@@ -34,7 +34,6 @@ class Police : public Npc {
 		std::vector<vec2f> lastDirSawPlayer;
 		std::vector<bool> knowPlayer;
 		int chasingPlayerNum;
-		bool collided;
 };
 
 #endif // POLICE_H

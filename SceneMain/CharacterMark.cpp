@@ -9,6 +9,7 @@ CharacterMark::~CharacterMark() {
 }
 
 void CharacterMark::update(float deltaTime) {
+	(void) deltaTime;
 	transform = glm::translate(mat4f(1.0),vec3f(0,0.75,0));
 	transform = glm::scale(transform,vec3f(0.5,0.5,0));
 }

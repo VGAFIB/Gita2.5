@@ -29,10 +29,7 @@ Police::Police() : Npc() {
 	position = vec2f(map->getRandomStreet())+0.5f;
 }
 
-vec2f Police::moveCharacter(float delta)
-{
-	collided = false;
-
+vec2f Police::moveCharacter(float delta) {
 	std::vector<Character*> personList = population->getSeenCharacters<Character>(this);
 
 	for (std::vector<Character*>::iterator it = personList.begin(); it != personList.end(); it++)
@@ -279,20 +276,6 @@ vec2f Police::moveCharacter(float delta)
 				lastPosSawPlayer[chasingPlayerNum] = p->getPosition();
 				lastPosSawTime[chasingPlayerNum] = 5;
 				state = STATE_CHASING_PLAYER;
-			}
-			else
-			{
-				if (collided) {
-					lastDirSawPlayer[chasingPlayerNum].x *= -1;
-					lastDirSawPlayer[chasingPlayerNum].y *= -1;
-				}
-
-				if (lastPosSawTime[chasingPlayerNum] < 0 || collided)
-				{
-					state = STATE_ALERT;
-					alertTime = 20;
-					lastAlertPos = lastPosSawPlayer[chasingPlayerNum];
-				}
 			}
 			return lastDirSawPlayer[chasingPlayerNum];
 		}

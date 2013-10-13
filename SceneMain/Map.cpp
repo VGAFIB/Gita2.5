@@ -1,8 +1,7 @@
 #include "Map.hpp"
 #include "SceneMain.hpp"
 #include "House.hpp"
-
-using namespace std;
+#include "PerspectiveCamera.hpp"
 
 struct Street {
 		int pos;
@@ -25,10 +24,10 @@ const int Street::types[][2] = {
 	{2, 4},
 };
 
-vector<Street> generateStreets(int size) {
+std::vector<Street> generateStreets(int size) {
 	int margin = 10;
 	//generate
-	vector<Street> v;
+	std::vector<Street> v;
 	for(int i = margin; i < size-margin; i++) {
 		int t = Utils::randomInt(0, 3);
 		Street s;
@@ -59,16 +58,16 @@ Map::Map() {
 
 	int sizex = 100;
 	int sizey = 100;
-	tiles = vector<vector<Tile> > (sizex, vector<Tile>(sizey));
+	tiles = std::vector<std::vector<Tile> > (sizex, std::vector<Tile>(sizey));
 
 	//Set everything to garden
 	for(int y = 0; y < sizey; y++)
 		for(int x = 0; x < sizex; x++)
 			tile(x, y).type = Map::Garden;
 
-	vector<Street> horitzStreets = generateStreets(sizey);
-	vector<Street> verticStreets = generateStreets(sizex);
-	vector<vector<Apple> > apples (verticStreets.size(), vector<Apple>(horitzStreets.size()));
+	std::vector<Street> horitzStreets = generateStreets(sizey);
+	std::vector<Street> verticStreets = generateStreets(sizex);
+	std::vector<std::vector<Apple> > apples (verticStreets.size(), std::vector<Apple>(horitzStreets.size()));
 
 	//randomly connect apples
 	for(unsigned int x = 0; x < verticStreets.size(); x++)
@@ -154,7 +153,7 @@ Map::Map() {
 						placeHouse(x, y, i);
 
 	//Discard smaller connected components (biggest BFS wins)
-	vector<vector<int> > visited(getWidth(), vector<int>(getHeight(), -1));
+	std::vector<std::vector<int> > visited(getWidth(), std::vector<int>(getHeight(), -1));
 	int bestid = 0;
 	int bestcount = 0;
 	int dx[] = {0, 0, 1, -1};
@@ -165,7 +164,7 @@ Map::Map() {
 			if(visited[x][y] == -1 && !tile(x, y).isSolid()) {
 				int id = x+y*getWidth();
 				int count = 0;
-				queue<vec2i> q;
+				std::queue<vec2i> q;
 				q.push(vec2i(x, y));
 
 				while(!q.empty()) {
@@ -194,18 +193,18 @@ Map::Map() {
 				tile(x, y).type = Unaccesible;
 
 	//Generate the mesh
-	vector<Vertex::Element> elements;
+	std::vector<Vertex::Element> elements;
 	elements.push_back(Vertex::Element(Vertex::Attribute::Position , Vertex::Element::Float, 3));
 	elements.push_back(Vertex::Element(Vertex::Attribute::Color    , Vertex::Element::Float, 3));
 
 	Vertex::Format format(elements);
-	Mesh* mesh = new Mesh(format,0,false);
+	Mesh* mesh = new Mesh(format,0,Mesh::STATIC);
 
 	struct Vertex {
 			Vertex(vec3f pos, vec3f color) : pos(pos) , color(color) {}
 			vec3f pos,color;
 	};
-	vector<Vertex> data;
+	std::vector<Vertex> data;
 	for(int y = 0; y < sizey; y++)
 		for(int x = 0; x < sizex; x++) {
 			if(tiles[x][y].type == Map::Building)
@@ -290,7 +289,9 @@ bool Map::houseFitsAt(int x, int y, int type) {
 }
 
 void Map::draw() const {
-	model.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
+	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(getGame()->getObjectByName("cam"));
+	mat4f t = cam->projection*cam->view*fullTransform;
+	model.program->uniform("modelViewProjectionMatrix")->set(t);
 	model.draw();
 }
 

@@ -1,4 +1,5 @@
 #include "Blood.hpp"
+#include "PerspectiveCamera.hpp"
 
 Blood::Blood(vec2f pos): pos(pos), life(0.0f) {
 	model.mesh = Meshes.get("bloodMesh");
@@ -20,7 +21,8 @@ void Blood::draw() const {
 	glDepthMask(GL_FALSE);
 	model.program->uniform("alpha")->set(1.0f - life*0.1f);
 	model.program->uniform("texBounds")->set(vec4f(0, 0, 1, 1));
-	mat4f t = fullTransform;
+	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(getGame()->getObjectByName("cam"));
+	mat4f t = cam->projection*cam->view*fullTransform;
 	t = glm::scale(t, vec3f(glm::min(life, 1.0f)));
 	model.program->uniform("modelViewProjectionMatrix")->set(t);
 	model.program->uniform("tex")->set(Textures.get("blood1Tex"));

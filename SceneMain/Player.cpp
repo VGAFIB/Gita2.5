@@ -34,11 +34,9 @@ vec2f Player::moveCharacter(float delta) {
 	if(jailed) {
         jailedTime += delta;
         return vec2f(0, 0);
-    }
+	}
 
-	playerInput.update();
-
-	if (playerInput.getKeyDown(PlayerInput::PLAYER_ACTION)) {
+	if (Input::isKeyDown(sf::Keyboard::Space)) {
         hitAction();
 		std::vector<Person*> persons = population->getNearbyCharacters<Person>(position, 1);
         for (std::vector<Person*>::iterator it = persons.begin(); it != persons.end(); ++it) {

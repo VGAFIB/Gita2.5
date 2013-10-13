@@ -1,6 +1,7 @@
 #include "Character.hpp"
 #include "Map.hpp"
 #include "Population.hpp"
+#include "PerspectiveCamera.hpp"
 
 Character::Character() {
 	vel = 2.50f;
@@ -35,7 +36,8 @@ void Character::draw() const {
 	frame.w /= size.y;
 	model.program->uniform("texBounds")->set(frame);
 
-	mat4f t = fullTransform;
+	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(getGame()->getObjectByName("cam"));
+	mat4f t = cam->projection*cam->view*fullTransform;
 	if(drawDead) {
 		t = glm::translate(t, vec3f(0, 0.01, 0));
 		t = glm::rotate(t, deadrot, vec3f(0, 1, 0));

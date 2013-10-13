@@ -11,6 +11,7 @@ class PerspectiveCamera : public GameObject {
 		vec3f pos;
 		vec3f rot;
 		mat4f projection;
+		mat4f view;
 };
 
 #endif // PERSPECTIVECAMERA_HPP

@@ -9,9 +9,8 @@ PerspectiveCamera::PerspectiveCamera(const vec3f& pos, const vec3f& rot, const m
 
 void PerspectiveCamera::update(float deltaTime) {
 	(void) deltaTime;
-	transform = projection;
-	transform = glm::rotate(transform,rot.x,vec3f(1,0,0));
-	transform = glm::rotate(transform,rot.y,vec3f(0,1,0));
-	transform = glm::rotate(transform,rot.z,vec3f(0,0,1));
-	transform = glm::translate(transform, -pos);
+	view = glm::rotate(mat4f(1.0),rot.x,vec3f(1,0,0));
+	view = glm::rotate(view,rot.y,vec3f(0,1,0));
+	view = glm::rotate(view,rot.z,vec3f(0,0,1));
+	view = glm::translate(view, -pos);
 }

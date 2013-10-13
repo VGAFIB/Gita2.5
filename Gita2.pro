@@ -16,8 +16,7 @@ SOURCES += \
     SceneMain/Person.cpp \
     SceneMain/Population.cpp \
     SceneMain/Police.cpp \
-    SceneMain/Player.cpp \
-    SceneMain/PlayerInput.cpp \
+	SceneMain/Player.cpp \
     SceneMain/CameraController.cpp \
     SceneMain/Blood.cpp \
     SceneMain/CharacterMark.cpp
@@ -34,8 +33,7 @@ HEADERS += \
     SceneMain/Person.hpp \
     SceneMain/Population.hpp \
     SceneMain/Police.hpp \
-    SceneMain/Player.hpp \
-    SceneMain/PlayerInput.hpp \
+	SceneMain/Player.hpp \
     SceneMain/CameraController.hpp \
     SceneMain/Blood.hpp \
     SceneMain/CharacterMark.hpp

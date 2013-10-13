@@ -1,5 +1,5 @@
 #include "CharacterMark.hpp"
-
+#include "PerspectiveCamera.hpp"
 CharacterMark::CharacterMark(vec4f color) : color(color), sign(INTERROGATION), visible(true){
 	model.mesh = Meshes.get("charMesh");
 	model.program = Programs.get("markProgram");
@@ -15,7 +15,9 @@ void CharacterMark::update(float deltaTime) {
 
 void CharacterMark::draw() const {
 	if(!visible) return;
-	model.program->uniform("modelViewProjectionMatrix")->set(fullTransform);
+	PerspectiveCamera* cam = static_cast<PerspectiveCamera*>(getGame()->getObjectByName("cam"));
+	mat4f t = cam->projection*cam->view*fullTransform;
+	model.program->uniform("modelViewProjectionMatrix")->set(t);
 	model.program->uniform("color")->set(color);
 	model.program->uniform("tex")->set(Textures.get("excTex"));
 	switch(sign) {

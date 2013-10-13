@@ -17,6 +17,17 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 	//Center mouse
 //	Input::setMousePos(SCRWIDTH/2,SCRHEIGHT/2,game->getWindow());
 
+	//GL stuff..: root(NULL)
+	glClearColor(0.1,0.2,0.05,1);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.01f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE); //enable backface culling
+	glCullFace(GL_BACK);
+
 	//Create camera
 	PerspectiveCamera* cam = new PerspectiveCamera();
 	cam->pos = vec3f(150,20,100);
@@ -25,10 +36,10 @@ SceneMain::SceneMain() : debugCounter(0.0), fpsCount(0) {
 
 	//Create stuff
 	Map* map = new Map();
-	map->addTo(cam);
+	map->addTo(this);
 
 	Population* pop = new Population();
-	pop->addTo(cam);
+	pop->addTo(this);
 
 	Player* player = new Player();
 	player->addTo(pop);
@@ -147,7 +158,7 @@ bool SceneMain::loadResources() {
 		elements.push_back(Vertex::Element(Vertex::Attribute::TexCoord , Vertex::Element::Float, 2));
 
 		Vertex::Format format(elements);
-		Mesh* charModel = new Mesh(format,0,false);
+		Mesh* charModel = new Mesh(format,0,Mesh::STATIC);
 
 		struct Vertex {
 				Vertex(vec3f pos, vec2f tex) : pos(pos) , tex(tex) {}
@@ -175,7 +186,7 @@ bool SceneMain::loadResources() {
 		elements.push_back(Vertex::Element(Vertex::Attribute::TexCoord , Vertex::Element::Float, 2));
 
 		Vertex::Format format(elements);
-		Mesh* bloodModel = new Mesh(format,0,false);
+		Mesh* bloodModel = new Mesh(format,0,Mesh::STATIC);
 
 		struct Vertex {
 				Vertex(vec3f pos, vec2f tex) : pos(pos) , tex(tex) {}

@@ -2,36 +2,33 @@
 #define PLAYER_H
 
 #include "Character.hpp"
-#include "PlayerInput.hpp"
 
 class Player : public Character {
-public:
+	public:
 
-	Player();
+		Player();
 
-    virtual vec2f moveCharacter(float deltaTime);
-    void hitAction();
-    void gotCaught();
+		virtual vec2f moveCharacter(float deltaTime);
+		void hitAction();
+		void gotCaught();
 
-    int getMoney(){return myMoney;}
-    void setMoney(int sc) {myMoney = sc;}
+		int getMoney(){return myMoney;}
+		void setMoney(int sc) {myMoney = sc;}
 
-    int getKills() {return myKills;}
-    void setKills(int k) {myKills = k;}
+		int getKills() {return myKills;}
+		void setKills(int k) {myKills = k;}
 
-    bool isDoingAction() { return actionDelay > 0; }
+		bool isDoingAction() { return actionDelay > 0; }
 
-	PlayerInput playerInput;
+		bool jailed;
 
-    bool jailed;
+		std::string currentAnim;
+		float actionDelay;
 
-    std::string currentAnim;
-    float actionDelay;
+		int myMoney;
+		int myKills;
 
-    int myMoney;
-    int myKills;
-
-    float jailedTime;
+		float jailedTime;
 };
 
 #endif // PLAYER_H
